@@ -1,7 +1,11 @@
-export const Portfolio = (props:any) => {
+import { PortfolioHeader } from "../components/portfolioHeader"
+import { Workflow } from "../components/workflow"
+
+export const Portfolio = () => {
     return (
         <div>
-            {props.name}
+            <PortfolioHeader/>
+            <Workflow/>
         </div>
     )
 }
