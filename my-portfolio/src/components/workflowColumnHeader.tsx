@@ -1,8 +1,6 @@
 import { Card, CardContent, Grid, Typography } from "@mui/material"
 
 
-
-
 export const WorkflowColumnHeader = (props:any) => {
     return (
         <Grid>

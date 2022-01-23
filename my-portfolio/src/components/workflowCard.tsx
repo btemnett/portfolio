@@ -1,7 +1,4 @@
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
+import { Card, CardContent, Grid, Typography } from "@mui/material"
 
 
 export const WorkflowCard = (props:any) => {
