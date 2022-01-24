@@ -12,13 +12,12 @@ export const PortfolioHeader = () => {
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             justifyContent: 'center',
-            paddingBottom: "50px"}}>
+            paddingBottom: "10px"}}>
             <Grid 
-                item xs={6}
                 container
-                spacing={0}
                 direction="column"
                 alignItems="center"
+                spacing={0}
                 justifyContent="center"
                 style={{ 
                     minHeight: '100px',

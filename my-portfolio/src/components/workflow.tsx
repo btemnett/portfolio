@@ -1,45 +1,126 @@
 import { WorkflowColumn } from './workflowColumn';
 import { Card, CardContent, Grid } from '@mui/material';
+import { styles } from '../styles';
 
 
 const workflowColumns = [
     {
-        name: "backlog"
+        name: "In Progress",
+        cards: [
+            {
+                name: 1
+            },
+            {
+                name: 2
+            },
+            {
+                name: 3
+            },
+            {
+                name: 4
+            },
+            {
+                name: 5
+            }
+        ]
     },
     {
-        name: "In Progress"
+        name: "What's Next",
+        cards: [
+            {
+                name: 1
+            },
+            {
+                name: 2
+            },
+            {
+                name: 3
+            },
+            {
+                name: 4
+            },
+            {
+                name: 5
+            }
+        ]
+    },
+    {
+        name: "Experience",
+        cards: [
+            {
+                name: 1
+            },
+            {
+                name: 2
+            },
+            {
+                name: 3
+            },
+            {
+                name: 4
+            },
+            {
+                name: 5
+            }
+        ]
+    },
+    {
+        name: "Interests",
+        cards: [
+            {
+                name: 1
+            },
+            {
+                name: 2
+            },
+            {
+                name: 3
+            },
+            {
+                name: 4
+            },
+            {
+                name: 5
+            }
+        ]
+    },
+    {
+        name: "Completed",
+        cards: [
+            {
+                name: 1
+            },
+            {
+                name: 2
+            },
+            {
+                name: 3
+            },
+            {
+                name: 4
+            },
+            {
+                name: 5
+            }
+        ]
     }
 ]
 
 export const Workflow = () => {
     return (
-        <Grid 
+        <Grid
+            id="workflowContainer"
             container
-            style={{
-                paddingTop: "20px",
-                paddingLeft: "20px",
-                paddingRight: "20px",
-                height: "1000px"
-                }}>
-            <Card variant="outlined" sx={{ width: "100%" }}>
-                <CardContent>
-                    <Grid
-                        container
-                        rowSpacing={2}
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="center"
-                        style={{paddingTop: "20px"}}>
-                            {
-                                workflowColumns.map((columnData, i) => {
-                                    return (
-                                        <WorkflowColumn key={i} name={columnData.name}/>
-                                    )
-                                })
-                            }
-                    </Grid>
-                </CardContent>
-            </Card>
+            direction="row"
+            justifyContent="center"
+            style={{...styles.workflowContainerStyles}}>
+                {
+                    workflowColumns.map((columnData, i) =>{
+                        return (
+                            <WorkflowColumn key={i} columnData={columnData}/>
+                        )
+                    })
+                }
         </Grid>
     )
 }

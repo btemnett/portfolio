@@ -1,30 +1,17 @@
 import { Card, CardContent, Grid, Typography } from "@mui/material"
+import { styles } from '../styles'
 
 
 export const WorkflowCard = (props:any) => {
     return (
-        <Grid
-        item xs={6}
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ 
-            minHeight: '100px',
-            paddingTop: "10px",
-            paddingBlock: "10px"}}>
-            <Card
-                variant="outlined"
-                sx={{
-                    width: "100%",
-                    maxWidth: 275 }}>
-                <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        {props.name}
-                    </Typography>
-                </CardContent>
-            </Card>
-        </Grid>
+        <Card
+            variant="outlined"
+            sx={{...styles.workflowCardStyles}}>
+            <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    {props.name}
+                </Typography>
+            </CardContent>
+        </Card>
     )
 }

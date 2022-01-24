@@ -1,4 +1,5 @@
 import { Card, CardContent, Grid } from '@mui/material';
+import { styles } from '../styles';
 import { WorkflowCard } from './workflowCard';
 import { WorkflowColumnHeader } from './workflowColumnHeader';
 
@@ -21,35 +22,29 @@ const columnCards = [
     }
 ]
 
-export const WorkflowColumn = (props:any) => {
+export const WorkflowColumn = (props: any) => {
     return (
-        <Grid 
-            container
-            spacing={5}
-            direction="column"
-            columns={1}
-            style={{
-                height: "100%",
-                width: "100%",
-                maxWidth: "300px",
-                paddingLeft: "30px",
-                paddingRight: "30px",
-                paddingTop: "30px",
-                paddingBottom: "30px"
-            }}>
-            <Card variant="outlined">
-                <CardContent>
-                    <WorkflowColumnHeader name={props.name}/>
+        <Card 
+            variant="outlined"
+            style={{...styles.workflowColumnContainerStyles}}>
+            <CardContent>
+                <Grid 
+                    container
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    style={{}}>
+                        <WorkflowColumnHeader name={props.columnData.name}/>
                         {
-                            columnCards.map((cardData, i) =>{
+                            props.columnData.cards.map((cardData:any, i:any) => {
                                 return (
                                     <WorkflowCard key={i} name={cardData.name}/>
                                 )
                             })
                         }
-                </CardContent>
-            </Card>
-            
-        </Grid>
+                </Grid>
+            </CardContent>
+        </Card>
+        
     )
 }
