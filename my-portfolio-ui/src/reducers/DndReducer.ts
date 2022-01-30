@@ -183,7 +183,6 @@ export const DNDReducer = (state: IDndState, action:any): IDndState => {
                 }
             }
             
-            
             return {
                 ...state
             }

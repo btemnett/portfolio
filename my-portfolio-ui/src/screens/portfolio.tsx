@@ -5,6 +5,9 @@ import { PortfolioHeader } from "../components/portfolioHeader"
 import { WorkflowComponent } from "../components/workflow"
 import { IAppState } from "../models/state/IAppState"
 import * as dndActions from "../actions/DndActions";
+import { SideBarComponent } from "../components/sideBar"
+import * as sideBarActions from "../actions/SideBarActions";
+
 
 export const PortfolioScreen = (props: {
     dndState: any,
@@ -14,7 +17,11 @@ export const PortfolioScreen = (props: {
     getInterestsData: any,
     getCompletedData: any,
     handleOnDragStart: any, 
-    handleOnDragEnd: any
+    handleOnDragEnd: any,
+    collapsed: any,
+    toggled: any,
+    handleToggleSideBar: any,
+    handleCollapsedChange: any
 }) => {
 
     useEffect(() => {
@@ -41,23 +48,49 @@ export const PortfolioScreen = (props: {
         if(!props.dndState.completed) {
             props.getCompletedData();
         }
+
+        // if(!props.collapsed) {
+        //     props.handleCollapsedChange(false);
+        // }
+
+        // if(props.toggled) {
+        //     props.handleToggleSideBar();
+        // }
     })
 
     return (
-        <Grid 
-            item
+        <Grid
             container
             direction="row"
-            justifyContent="center"
-            alignItems="center">
+            style={{"width": "100%"}}
+        >
+            <Grid
+                item
+                style={{
+                    "width": props.collapsed ? "5%" : "15%"
+                }}
+                onClick={props.handleToggleSideBar}
+            >
+                <SideBarComponent collapsed={props.collapsed} toggled={props.toggled} handleToggleSideBar={props.handleToggleSideBar}/>
+            </Grid>
+            <Grid 
+                item
+                justifyContent="center"
+                alignItems="center"
+                style={{"width": props.collapsed ? "95%" : "85%"}}
+            >
                 <PortfolioHeader/>
                 <WorkflowComponent dndState={props.dndState} handleOnDragStart={props.handleOnDragStart} handleOnDragEnd={props.handleOnDragEnd}/>
+            </Grid>
         </Grid>
+        
     )
 }
 
 const mapStateToProps = (state: IAppState) => ({
-    dndState: state.dnd
+    dndState: state.dnd,
+    collapsed: state.sideBar.collapsed,
+    toggled: state.sideBar.toggled
 })
 
 const mapDispatchToProps = {
@@ -67,7 +100,9 @@ const mapDispatchToProps = {
     getInterestsData: dndActions.getInterestsData,
     getCompletedData: dndActions.getCompletedData,
     handleOnDragStart: dndActions.handleOnDragStart,
-    handleOnDragEnd: dndActions.handleOnDragEnd
+    handleOnDragEnd: dndActions.handleOnDragEnd,
+    handleToggleSideBar: sideBarActions.handleToggleSideBar,
+    handleCollapsedChange: sideBarActions.handleCollapsedChange
 }
 
 export const PortfolioScreenContainer = connect(

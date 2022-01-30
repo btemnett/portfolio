@@ -8,5 +8,9 @@ export const InitialState: any = {
         experience: null,
         interests: null,
         completed: null
+    },
+    sideBar: {
+        collapsed: true,
+        toggled: false
     }
 }
