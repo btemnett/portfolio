@@ -8,6 +8,11 @@ import * as dndActions from "../actions/DndActions";
 
 export const PortfolioScreen = (props: {
     dndState: any,
+    getInProgressData: any,
+    getWhatsNextData: any,
+    getExperienceData: any,
+    getInterestsData: any,
+    getCompletedData: any,
     handleOnDragStart: any, 
     handleOnDragEnd: any
 }) => {
@@ -16,6 +21,26 @@ export const PortfolioScreen = (props: {
         // if there are no cards then go get them
         // will need to set the intial state of the cards to empty arrays
         // once the api is hooked up
+
+        if(!props.dndState.inProgress) {
+            props.getInProgressData();
+        }
+
+        if(!props.dndState.whatsNext) {
+            props.getWhatsNextData();
+        }
+
+        if(!props.dndState.experience) {
+            props.getExperienceData();
+        }
+
+        if(!props.dndState.interests) {
+            props.getInterestsData();
+        }
+
+        if(!props.dndState.completed) {
+            props.getCompletedData();
+        }
     })
 
     return (
@@ -36,6 +61,11 @@ const mapStateToProps = (state: IAppState) => ({
 })
 
 const mapDispatchToProps = {
+    getInProgressData: dndActions.getInProgressData,
+    getWhatsNextData: dndActions.getWhatsNextData,
+    getExperienceData: dndActions.getExperienceData,
+    getInterestsData: dndActions.getInterestsData,
+    getCompletedData: dndActions.getCompletedData,
     handleOnDragStart: dndActions.handleOnDragStart,
     handleOnDragEnd: dndActions.handleOnDragEnd
 }

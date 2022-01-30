@@ -23,6 +23,14 @@ export const WorkflowComponent = (props: {
                     {
                         
                         Object.keys(props.dndState).map((dndStateKey, i) => {
+
+                            if(!props.dndState[dndStateKey]){
+                                return (
+                                    <div key={i}>
+
+                                    </div>
+                                )
+                            }
                             return (
                                 <WorkflowColumnComponent key={i} columnData={props.dndState[dndStateKey]}/>
                             )

@@ -3,12 +3,136 @@ import { IDndState } from "../models/state/IDndState";
 import * as dndActions from "../actions/DndActions"
 import { IWorkflowColumn } from "../models/interfaces/IWorkflowColumn";
 import { IDndResult } from "../models/interfaces/IDndResult";
+import { DndColumnNames } from "../enums/DndColumnNames";
 
 
 export const DNDReducer = (state: IDndState, action:any): IDndState => {
     
     switch(action.type) {
-        case dndActions.GET_IN_PROGRESS_CARDS: {
+        case dndActions.GET_IN_PROGRESS_DATA: {
+            console.log(`${dndActions.GET_IN_PROGRESS_DATA}`);
+
+            return {
+                ...state
+            }
+        }
+
+        case dndActions.GET_IN_PROGRESS_DATA_SUCCESS: {
+            console.log(`${dndActions.GET_IN_PROGRESS_DATA_SUCCESS}`);
+
+
+            return {
+                ...state,
+                [DndColumnNames.IN_PROGRESS]: action.payload.data
+            }
+        }
+
+        case dndActions.GET_IN_PROGRESS_DATA_FAIL: {
+            console.log(`${dndActions.GET_IN_PROGRESS_DATA_FAIL}`);
+
+            return {
+                ...state
+            }
+        }
+
+        case dndActions.GET_WHATS_NEXT_DATA: {
+            console.log(`${dndActions.GET_WHATS_NEXT_DATA}`);
+
+            return {
+                ...state
+            }
+        }
+
+        case dndActions.GET_WHATS_NEXT_DATA_SUCCESS: {
+            console.log(`${dndActions.GET_WHATS_NEXT_DATA_SUCCESS}`);
+
+
+            return {
+                ...state,
+                [DndColumnNames.WHATS_NEXT]: action.payload.data
+            }
+        }
+
+        case dndActions.GET_WHATS_NEXT_DATA_FAIL: {
+            console.log(`${dndActions.GET_WHATS_NEXT_DATA_FAIL}`);
+
+
+            return {
+                ...state
+            }
+        }
+
+        case dndActions.GET_EXPERIENCE_DATA: {
+            console.log(`${dndActions.GET_EXPERIENCE_DATA}`);
+
+            return {
+                ...state
+            }
+        }
+
+        case dndActions.GET_EXPERIENCE_DATA_SUCCESS: {
+            console.log(`${dndActions.GET_EXPERIENCE_DATA_SUCCESS}`);
+
+            return {
+                ...state,
+                [DndColumnNames.EXPERIENCE]: action.payload.data
+            }
+        }
+
+        case dndActions.GET_EXPERIENCE_DATA_FAIL: {
+            console.log(`${dndActions.GET_EXPERIENCE_DATA_FAIL}`);
+
+            return {
+                ...state
+            }
+        }
+
+        case dndActions.GET_INTERESTS_DATA: {
+            console.log(`${dndActions.GET_INTERESTS_DATA}`);
+
+            return {
+                ...state
+            }
+        }
+
+        case dndActions.GET_INTERESTS_DATA_SUCCESS: {
+            console.log(`${dndActions.GET_INTERESTS_DATA_SUCCESS}`);
+
+
+            return {
+                ...state,
+                [DndColumnNames.INTERESTS]: action.payload.data
+            }
+        }
+
+        case dndActions.GET_INTERESTS_DATA_FAIL: {
+            console.log(`${dndActions.GET_INTERESTS_DATA_FAIL}`);
+
+            return {
+                ...state
+            }
+        }
+
+        case dndActions.GET_COMPLETED_DATA: {
+            console.log(`${dndActions.GET_COMPLETED_DATA}`);
+
+            return {
+                ...state
+            }
+        }
+
+        case dndActions.GET_COMPLETED_DATA_SUCCESS: {
+            console.log(`${dndActions.GET_COMPLETED_DATA_SUCCESS}`);
+
+            return {
+                ...state,
+                [DndColumnNames.COMPLETED]: action.payload.data
+            }
+        }
+
+        case dndActions.GET_COMPLETED_DATA_FAIL: {
+            console.log(`${dndActions.GET_COMPLETED_DATA_FAIL}`);
+
             return {
                 ...state
             }
