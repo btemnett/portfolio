@@ -1,6 +1,10 @@
-
+import { IWorkflowColumn } from "../interfaces/IWorkflowColumn";
 
 
 export interface IDndState {
-    name: string
+    inProgress: IWorkflowColumn
+    whatsNext: IWorkflowColumn
+    experience: IWorkflowColumn
+    interests: IWorkflowColumn
+    completed: IWorkflowColumn
 }

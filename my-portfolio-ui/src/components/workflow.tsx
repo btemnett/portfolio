@@ -1,112 +1,17 @@
-import { WorkflowColumn } from './workflowColumn';
+import { WorkflowColumnComponent } from './workflowColumn';
 import { Card, CardContent, Grid } from '@mui/material';
 import { styles } from '../styles';
+import { DragDropContext } from "react-beautiful-dnd";
+import * as dndActions from "../actions/DndActions";
+import { connect } from 'react-redux';
+import { IAppState } from '../models/state/IAppState';
 
 
-const workflowColumns = [
-    {
-        name: "In Progress",
-        cards: [
-            {
-                name: 1
-            },
-            {
-                name: 2
-            },
-            {
-                name: 3
-            },
-            {
-                name: 4
-            },
-            {
-                name: 5
-            }
-        ]
-    },
-    {
-        name: "What's Next",
-        cards: [
-            {
-                name: 1
-            },
-            {
-                name: 2
-            },
-            {
-                name: 3
-            },
-            {
-                name: 4
-            },
-            {
-                name: 5
-            }
-        ]
-    },
-    {
-        name: "Experience",
-        cards: [
-            {
-                name: 1
-            },
-            {
-                name: 2
-            },
-            {
-                name: 3
-            },
-            {
-                name: 4
-            },
-            {
-                name: 5
-            }
-        ]
-    },
-    {
-        name: "Interests",
-        cards: [
-            {
-                name: 1
-            },
-            {
-                name: 2
-            },
-            {
-                name: 3
-            },
-            {
-                name: 4
-            },
-            {
-                name: 5
-            }
-        ]
-    },
-    {
-        name: "Completed",
-        cards: [
-            {
-                name: 1
-            },
-            {
-                name: 2
-            },
-            {
-                name: 3
-            },
-            {
-                name: 4
-            },
-            {
-                name: 5
-            }
-        ]
-    }
-]
-
-export const Workflow = () => {
+export const WorkflowComponent = (props: {
+    dndState: any,
+    handleOnDragStart: any,
+    handleOnDragEnd: any
+}) => {
     return (
         <Grid
             id="workflowContainer"
@@ -114,13 +19,30 @@ export const Workflow = () => {
             direction="row"
             justifyContent="center"
             style={{...styles.workflowContainerStyles}}>
-                {
-                    workflowColumns.map((columnData, i) =>{
-                        return (
-                            <WorkflowColumn key={i} columnData={columnData}/>
-                        )
-                    })
-                }
+                <DragDropContext onDragStart={props.handleOnDragStart} onDragEnd={props.handleOnDragEnd}>
+                    {
+                        
+                        Object.keys(props.dndState).map((dndStateKey, i) => {
+                            return (
+                                <WorkflowColumnComponent key={i} columnData={props.dndState[dndStateKey]}/>
+                            )
+                        })
+                    }
+                </DragDropContext>
         </Grid>
     )
 }
+
+const mapStateToProps = (state: IAppState) => ({
+    dndState: state.dnd
+})
+
+const mapDispatchToProps = {
+    handleOnDragStart: dndActions.handleOnDragStart,
+    handleOnDragEnd: dndActions.handleOnDragEnd
+}
+
+export const WorkflowComponentContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(WorkflowComponent)
