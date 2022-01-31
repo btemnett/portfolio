@@ -7,6 +7,8 @@ import { IAppState } from "../models/state/IAppState"
 import * as dndActions from "../actions/DndActions";
 import { SideBarComponent } from "../components/sideBar"
 import * as sideBarActions from "../actions/SideBarActions";
+import 'react-pro-sidebar/dist/css/styles.css';
+
 
 
 export const PortfolioScreen = (props: {
@@ -62,22 +64,26 @@ export const PortfolioScreen = (props: {
         <Grid
             container
             direction="row"
-            style={{"width": "100%"}}
+            style={{"width": "100%", minHeight: "100%"}}
         >
             <Grid
                 item
                 style={{
-                    "width": props.collapsed ? "5%" : "15%"
+                    "width": props.collapsed ? "5%" : "20%"
                 }}
                 onClick={props.handleToggleSideBar}
             >
-                <SideBarComponent collapsed={props.collapsed} toggled={props.toggled} handleToggleSideBar={props.handleToggleSideBar}/>
+                <SideBarComponent 
+                    collapsed={props.collapsed}
+                    toggled={props.toggled}
+                    handleToggleSideBar={props.handleToggleSideBar}
+                />
             </Grid>
             <Grid 
                 item
                 justifyContent="center"
                 alignItems="center"
-                style={{"width": props.collapsed ? "95%" : "85%"}}
+                style={{"width": props.collapsed ? "95%" : "80%"}}
             >
                 <PortfolioHeader/>
                 <WorkflowComponent dndState={props.dndState} handleOnDragStart={props.handleOnDragStart} handleOnDragEnd={props.handleOnDragEnd}/>

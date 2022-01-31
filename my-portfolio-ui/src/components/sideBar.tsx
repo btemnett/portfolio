@@ -17,6 +17,7 @@ export const SideBarComponent = (props: {
             toggled={props.toggled}
             breakPoint="md"
             onToggle={props.handleToggleSideBar}
+            style={{width: "97%"}}
         >
             <Menu iconShape="square">
                 <MenuItem>Current Card</MenuItem>
