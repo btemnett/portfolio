@@ -39,7 +39,7 @@ export const PortfolioScreen = (props: {
     toggled: any,
     handleToggleSideBar: any,
     handleCollapsedChange: any,
-    ready: any,
+    animationReady: any,
     udpateBoundaryValues: any,
     topBoundary: any,
     bottomBoundary: any,
@@ -55,54 +55,45 @@ export const PortfolioScreen = (props: {
 }) => {
 
     useEffect(() => {
-        // if there are no cards then go get them
-        // will need to set the intial state of the cards to empty arrays
-        // once the api is hooked up
 
-        if(!props.dndState.inProgress) {
-            props.getInProgressData();
+        if(!props.dndState.dndReady){
+            if(!props.dndState.inProgress) {
+                props.getInProgressData();
+            }
+    
+            if(!props.dndState.whatsNext) {
+                props.getWhatsNextData();
+            }
+    
+            if(!props.dndState.experience) {
+                props.getExperienceData();
+            }
+    
+            if(!props.dndState.interests) {
+                props.getInterestsData();
+            }
+    
+            if(!props.dndState.completed) {
+                props.getCompletedData();
+            }
         }
-
-        if(!props.dndState.whatsNext) {
-            props.getWhatsNextData();
-        }
-
-        if(!props.dndState.experience) {
-            props.getExperienceData();
-        }
-
-        if(!props.dndState.interests) {
-            props.getInterestsData();
-        }
-
-        if(!props.dndState.completed) {
-            props.getCompletedData();
-        }
-
+        
         if(!props.elementResizeEventListenerBound) {
             props.bindElementResizeEventListener(props.setResized)
         }
 
-        if(!props.ready && props.elementResizeEventListenerBound){
+        if(!props.animationReady && props.elementResizeEventListenerBound){
             props.udpateBoundaryValues();
             props.getAnimationElements();
         }
 
-        if(props.ready){
+        if(props.animationReady){
             animate(props.animationElements, props.updateAnimationElementPosition);
         }
 
         if(props.resized){
             props.udpateBoundaryValues();
         }
-
-        // if(!props.collapsed) {
-        //     props.handleCollapsedChange(false);
-        // }
-
-        // if(props.toggled) {
-        //     props.handleToggleSideBar();
-        // }
     })
 
     return (
@@ -136,7 +127,7 @@ export const PortfolioScreen = (props: {
                     leftBoundary={props.leftBoundary}
                     rightBoundary={props.rightBoundary}
                     animationElements={props.animationElements}
-                    ready={props.ready}
+                    animationReady={props.animationReady}
                 />
                 <WorkflowComponent
                     dndState={props.dndState}
@@ -145,7 +136,6 @@ export const PortfolioScreen = (props: {
                 />
             </Grid>
         </Grid>
-        
     )
 }
 
@@ -153,7 +143,7 @@ const mapStateToProps = (state: IAppState) => ({
     dndState: state.dnd,
     collapsed: state.sideBar.collapsed,
     toggled: state.sideBar.toggled,
-    ready: state.animation.ready,
+    animationReady: state.animation.animationReady,
     topBoundary: state.animation.topBoundary,
     bottomBoundary: state.animation.bottomBoundary,
     leftBoundary: state.animation.leftBoundary,

@@ -7,14 +7,15 @@ export const InitialState: any = {
         whatsNext: null,
         experience: null,
         interests: null,
-        completed: null
+        completed: null,
+        dndReady: false
     },
     sideBar: {
         collapsed: true,
         toggled: false
     },
     animation: {
-        ready: false,
+        animationReady: false,
         topBoundary: null,
         bottomBoundary: null,
         leftBoundary: null,

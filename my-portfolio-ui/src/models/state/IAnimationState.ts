@@ -1,7 +1,7 @@
 import { IAnimationElement } from "../interfaces/IAnimationElement";
 
 export interface IAnimationState {
-    ready: boolean
+    animationReady: boolean
     topBoundary: number
     bottomBoundary: number
     leftBoundary: number

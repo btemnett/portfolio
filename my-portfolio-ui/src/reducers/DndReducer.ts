@@ -20,10 +20,12 @@ export const DNDReducer = (state: IDndState, action:any): IDndState => {
         case dndActions.GET_IN_PROGRESS_DATA_SUCCESS: {
             console.log(`${dndActions.GET_IN_PROGRESS_DATA_SUCCESS}`);
 
+            const ready = checkDndReady(state);
 
             return {
                 ...state,
-                [DndColumnNames.IN_PROGRESS]: action.payload.data
+                [DndColumnNames.IN_PROGRESS]: action.payload.data,
+                dndReady: ready ? true : false
             }
         }
 
@@ -46,10 +48,12 @@ export const DNDReducer = (state: IDndState, action:any): IDndState => {
         case dndActions.GET_WHATS_NEXT_DATA_SUCCESS: {
             console.log(`${dndActions.GET_WHATS_NEXT_DATA_SUCCESS}`);
 
+            const ready = checkDndReady(state);
 
             return {
                 ...state,
-                [DndColumnNames.WHATS_NEXT]: action.payload.data
+                [DndColumnNames.WHATS_NEXT]: action.payload.data,
+                dndReady: ready ? true : false
             }
         }
 
@@ -73,9 +77,12 @@ export const DNDReducer = (state: IDndState, action:any): IDndState => {
         case dndActions.GET_EXPERIENCE_DATA_SUCCESS: {
             console.log(`${dndActions.GET_EXPERIENCE_DATA_SUCCESS}`);
 
+            const ready = checkDndReady(state);
+
             return {
                 ...state,
-                [DndColumnNames.EXPERIENCE]: action.payload.data
+                [DndColumnNames.EXPERIENCE]: action.payload.data,
+                dndReady: ready ? true : false
             }
         }
 
@@ -98,10 +105,12 @@ export const DNDReducer = (state: IDndState, action:any): IDndState => {
         case dndActions.GET_INTERESTS_DATA_SUCCESS: {
             console.log(`${dndActions.GET_INTERESTS_DATA_SUCCESS}`);
 
+            const ready = checkDndReady(state);
 
             return {
                 ...state,
-                [DndColumnNames.INTERESTS]: action.payload.data
+                [DndColumnNames.INTERESTS]: action.payload.data,
+                dndReady: ready ? true : false
             }
         }
 
@@ -124,9 +133,12 @@ export const DNDReducer = (state: IDndState, action:any): IDndState => {
         case dndActions.GET_COMPLETED_DATA_SUCCESS: {
             console.log(`${dndActions.GET_COMPLETED_DATA_SUCCESS}`);
 
+            const ready = checkDndReady(state);
+
             return {
                 ...state,
-                [DndColumnNames.COMPLETED]: action.payload.data
+                [DndColumnNames.COMPLETED]: action.payload.data,
+                dndReady: ready ? true : false
             }
         }
 
@@ -197,3 +209,10 @@ export const DNDReducer = (state: IDndState, action:any): IDndState => {
 }
 
 const getWorkflowColumn = <T extends object, U extends keyof T>(obj: T) => (key: U) => obj[key]
+
+const checkDndReady = (state: IDndState) => {
+    if(state.inProgress && state.whatsNext && state.experience && state.interests && state.completed){
+        return true
+    }
+    return false;
+}

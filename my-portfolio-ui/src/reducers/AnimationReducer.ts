@@ -25,7 +25,7 @@ export const AnimationReducer = (state: IAnimationState, action:any): IAnimation
                 return {
                     ...state,
                     elementResizeEventListenerBound: true,
-                    ready: true
+                    animationReady: true
                 }
             }
             
@@ -39,6 +39,11 @@ export const AnimationReducer = (state: IAnimationState, action:any): IAnimation
 
             const js = document.getElementById("JS")
             if(js){
+                const parent = js.offsetParent
+                if(parent) {
+                    console.log(`Parent: ${JSON.stringify(parent.toString())}`)
+                    
+                }
                 const details = js.getBoundingClientRect();
                 console.log(`details: ${JSON.stringify(details)}`)
             }
@@ -67,7 +72,7 @@ export const AnimationReducer = (state: IAnimationState, action:any): IAnimation
                     leftBoundary: Math.floor(boundaryValues.left),
                     rightBoundary: Math.floor(boundaryValues.right),
                     resized: false,
-                    ready: true,
+                    animationReady: true,
                     animationElements
                 }
             }
@@ -101,7 +106,7 @@ export const AnimationReducer = (state: IAnimationState, action:any): IAnimation
 
             return {
                 ...state,
-                ready: true
+                animationReady: true
             }
         }
 

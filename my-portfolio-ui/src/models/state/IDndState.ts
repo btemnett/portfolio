@@ -7,4 +7,5 @@ export interface IDndState {
     experience: IWorkflowColumn
     interests: IWorkflowColumn
     completed: IWorkflowColumn
+    dndReady: boolean
 }

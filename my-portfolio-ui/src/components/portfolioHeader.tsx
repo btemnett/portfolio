@@ -12,7 +12,7 @@ export const PortfolioHeaderComponent = (props: {
     leftBoundary: any,
     rightBoundary: any,
     animationElements: any,
-    ready: any
+    animationReady: any
 }) => {
     return (
         <Grid
@@ -21,7 +21,8 @@ export const PortfolioHeaderComponent = (props: {
                 height: '30%',
                 justifyContent: 'center',
                 paddingBottom: "10px",
-                backgroundColor: "red"
+                backgroundColor: "red",
+                position: "relative"
             }}
             id="portfolioHeader"
         >
@@ -40,7 +41,7 @@ export const PortfolioHeaderComponent = (props: {
                         return (
                             <span 
                                 style={{
-                                    position: props.ready ? "absolute" : "static",
+                                    position: props.animationReady ? "absolute" : "static",
                                     top: element.yPosition,
                                     left: element.xPosition
                                 }}
@@ -52,7 +53,10 @@ export const PortfolioHeaderComponent = (props: {
                         )
                     })
                 }
-                <Card sx={{ maxWidth: 275 }}>
+                <Card
+                    sx={{ maxWidth: 275 }}
+                    style={{position: "relative", zIndex: 1}}
+                >
                     <CardContent>
                         <Typography sx={{ fontSize: 20 }} variant="body2">
                             What did I do yesterday?
@@ -85,7 +89,7 @@ const mapStateToProps = (state: IAppState) => ({
     leftBoundary: state.animation.leftBoundary,
     rightBoundary: state.animation.rightBoundary,
     animationElements: state.animation.animationElements,
-    ready: state.animation.ready
+    animationReady: state.animation.animationReady
 })
 
 const mapDispatchToProps = {
