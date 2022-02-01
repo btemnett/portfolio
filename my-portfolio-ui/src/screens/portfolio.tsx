@@ -1,15 +1,30 @@
 import { Grid } from "@mui/material"
 import { useEffect } from "react"
 import { connect } from "react-redux"
-import { PortfolioHeader } from "../components/portfolioHeader"
+import { PortfolioHeaderComponent } from "../components/portfolioHeader"
 import { WorkflowComponent } from "../components/workflow"
 import { IAppState } from "../models/state/IAppState"
 import * as dndActions from "../actions/DndActions";
 import { SideBarComponent } from "../components/sideBar"
 import * as sideBarActions from "../actions/SideBarActions";
+import * as animationActions from "../actions/AnimationActions"
 import 'react-pro-sidebar/dist/css/styles.css';
+import { IAnimationElement } from "../models/interfaces/IAnimationElement";
 
 
+const FPS = 60;
+
+const animate = (animationElements: Array<IAnimationElement>, updatePositionFunction: any) => {
+
+    setInterval(() => {
+
+        for (let i = 0; i < animationElements.length; i++) {
+
+            updatePositionFunction(animationElements[i]);
+        }
+        
+    }, 1000/FPS)
+}
 
 export const PortfolioScreen = (props: {
     dndState: any,
@@ -23,7 +38,20 @@ export const PortfolioScreen = (props: {
     collapsed: any,
     toggled: any,
     handleToggleSideBar: any,
-    handleCollapsedChange: any
+    handleCollapsedChange: any,
+    ready: any,
+    udpateBoundaryValues: any,
+    topBoundary: any,
+    bottomBoundary: any,
+    leftBoundary: any,
+    rightBoundary: any,
+    animationElements: any,
+    getAnimationElements: any,
+    updateAnimationElementPosition: any,
+    elementResizeEventListenerBound: any,
+    bindElementResizeEventListener: any,
+    resized: any,
+    setResized: any
 }) => {
 
     useEffect(() => {
@@ -49,6 +77,23 @@ export const PortfolioScreen = (props: {
 
         if(!props.dndState.completed) {
             props.getCompletedData();
+        }
+
+        if(!props.elementResizeEventListenerBound) {
+            props.bindElementResizeEventListener(props.setResized)
+        }
+
+        if(!props.ready && props.elementResizeEventListenerBound){
+            props.udpateBoundaryValues();
+            props.getAnimationElements();
+        }
+
+        if(props.ready){
+            animate(props.animationElements, props.updateAnimationElementPosition);
+        }
+
+        if(props.resized){
+            props.udpateBoundaryValues();
         }
 
         // if(!props.collapsed) {
@@ -85,8 +130,19 @@ export const PortfolioScreen = (props: {
                 alignItems="center"
                 style={{"width": props.collapsed ? "95%" : "80%"}}
             >
-                <PortfolioHeader/>
-                <WorkflowComponent dndState={props.dndState} handleOnDragStart={props.handleOnDragStart} handleOnDragEnd={props.handleOnDragEnd}/>
+                <PortfolioHeaderComponent
+                    topBoundary={props.topBoundary}
+                    bottomBoundary={props.bottomBoundary}
+                    leftBoundary={props.leftBoundary}
+                    rightBoundary={props.rightBoundary}
+                    animationElements={props.animationElements}
+                    ready={props.ready}
+                />
+                <WorkflowComponent
+                    dndState={props.dndState}
+                    handleOnDragStart={props.handleOnDragStart}
+                    handleOnDragEnd={props.handleOnDragEnd}
+                />
             </Grid>
         </Grid>
         
@@ -96,7 +152,15 @@ export const PortfolioScreen = (props: {
 const mapStateToProps = (state: IAppState) => ({
     dndState: state.dnd,
     collapsed: state.sideBar.collapsed,
-    toggled: state.sideBar.toggled
+    toggled: state.sideBar.toggled,
+    ready: state.animation.ready,
+    topBoundary: state.animation.topBoundary,
+    bottomBoundary: state.animation.bottomBoundary,
+    leftBoundary: state.animation.leftBoundary,
+    rightBoundary: state.animation.rightBoundary,
+    animationElements: state.animation.animationElements,
+    elementResizeEventListenerBound: state.animation.elementResizeEventListenerBound,
+    resized: state.animation.resized
 })
 
 const mapDispatchToProps = {
@@ -108,7 +172,12 @@ const mapDispatchToProps = {
     handleOnDragStart: dndActions.handleOnDragStart,
     handleOnDragEnd: dndActions.handleOnDragEnd,
     handleToggleSideBar: sideBarActions.handleToggleSideBar,
-    handleCollapsedChange: sideBarActions.handleCollapsedChange
+    handleCollapsedChange: sideBarActions.handleCollapsedChange,
+    udpateBoundaryValues: animationActions.udpateBoundaryValues,
+    getAnimationElements: animationActions.getAnimationElements,
+    updateAnimationElementPosition: animationActions.updateAnimationElementPosition,
+    bindElementResizeEventListener: animationActions.bindElementResizeEventListener,
+    setResized: animationActions.setResized
 }
 
 export const PortfolioScreenContainer = connect(

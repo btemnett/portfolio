@@ -12,5 +12,15 @@ export const InitialState: any = {
     sideBar: {
         collapsed: true,
         toggled: false
+    },
+    animation: {
+        ready: false,
+        topBoundary: null,
+        bottomBoundary: null,
+        leftBoundary: null,
+        rightBoundary: null,
+        animationElements: [],
+        elementResizeEventListenerBound: false,
+        resized: false
     }
 }

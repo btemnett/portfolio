@@ -14,7 +14,7 @@ export const styles = {
     },
     "workflowContainerStyles": {
         "padding": "20px",
-        "height": "auto",
+        "height": "70%",
         "width": "100%"
     },
     "workflowColumnContainerStyles": {

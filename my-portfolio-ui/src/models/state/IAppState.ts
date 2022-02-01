@@ -1,3 +1,4 @@
+import { IAnimationState } from "./IAnimationState";
 import { IDndState } from "./IDndState";
 import { ISideBarState } from "./ISideBarState";
 
@@ -5,5 +6,6 @@ import { ISideBarState } from "./ISideBarState";
 
 export interface IAppState {
     dnd: IDndState,
-    sideBar: ISideBarState
+    sideBar: ISideBarState,
+    animation: IAnimationState
 }
