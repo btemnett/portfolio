@@ -4,4 +4,6 @@ export interface IAnimationElement {
     text: string
     xPosition: number
     yPosition: number
+    xVelocity: number
+    yVelocity: number
 }

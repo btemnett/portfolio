@@ -23,7 +23,7 @@ const animate = (animationElements: Array<IAnimationElement>, updatePositionFunc
             updatePositionFunction(animationElements[i]);
         }
         
-    }, 1000/FPS)
+    }, 1000)
 }
 
 export const PortfolioScreen = (props: {
@@ -108,6 +108,7 @@ export const PortfolioScreen = (props: {
                     "width": props.collapsed ? "5%" : "20%"
                 }}
                 onClick={props.handleToggleSideBar}
+                id="sideBarContainer"
             >
                 <SideBarComponent 
                     collapsed={props.collapsed}

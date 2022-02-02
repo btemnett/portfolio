@@ -37,17 +37,6 @@ export const AnimationReducer = (state: IAnimationState, action:any): IAnimation
         case animationActions.SET_RESIZED: {
             console.log(animationActions.SET_RESIZED);
 
-            const js = document.getElementById("JS")
-            if(js){
-                const parent = js.offsetParent
-                if(parent) {
-                    console.log(`Parent: ${JSON.stringify(parent.toString())}`)
-                    
-                }
-                const details = js.getBoundingClientRect();
-                console.log(`details: ${JSON.stringify(details)}`)
-            }
-
             return {
                 ...state,
                 resized: true
@@ -58,33 +47,54 @@ export const AnimationReducer = (state: IAnimationState, action:any): IAnimation
             console.log(`${animationActions.UPDATE_BOUNDARY_VALUES}`);
 
             const boundingElement = document.getElementById("portfolioHeader");
+            const sideBarContainerElement = document.getElementById("sideBarContainer");
+            const sideBarElement = document.getElementById("sideBar");
 
-            if(boundingElement) {
-                const boundaryValues = boundingElement.getBoundingClientRect();
-                console.log(`boundary values :${JSON.stringify(boundaryValues)}`);
+            if(boundingElement && sideBarContainerElement && sideBarElement) {
 
-                const animationElements = getAnimationElements(animationObjects, boundaryValues.left, boundaryValues.top)
+                const boundingElementBoundaryValues = boundingElement.getBoundingClientRect();
+                console.log(`bounding element boundary values :${JSON.stringify(boundingElementBoundaryValues)}`);
+
+                if(
+                    Math.abs(boundingElementBoundaryValues.top - state.topBoundary) < 2 &&
+                    Math.abs(boundingElementBoundaryValues.bottom - state.bottomBoundary) < 2 &&
+                    Math.abs(boundingElementBoundaryValues.left - state.leftBoundary) < 2 &&
+                    Math.abs(boundingElementBoundaryValues.right - state.rightBoundary) < 2
+                ) {
+                    return {
+                        ...state
+                    }
+                }
+
+                const sideBarContainerElementBoundaryValues = sideBarContainerElement.getBoundingClientRect();
+                console.log(`sidebar container element boundary values :${JSON.stringify(sideBarContainerElementBoundaryValues)}`);
+
+                const sideBarBoundaryValues = sideBarElement.getBoundingClientRect();
+                console.log(`sideBar element boundary values :${JSON.stringify(sideBarBoundaryValues)}`);
+
+                const sideBarGap = sideBarContainerElementBoundaryValues.right - sideBarContainerElementBoundaryValues.right;
+                const gapAdjustement = sideBarGap <= 0 ? 0 : sideBarGap;
+
+                const leftOrigin = boundingElementBoundaryValues.left - sideBarBoundaryValues.right - gapAdjustement;
+                const rightOrigin = boundingElementBoundaryValues.right - sideBarBoundaryValues.right - gapAdjustement;
+                const topOrigin = boundingElementBoundaryValues.top - boundingElementBoundaryValues.top;
+                const bottomOrigin = boundingElementBoundaryValues.bottom - boundingElementBoundaryValues.top;
+
+                const xInitial = getInitialPosition(rightOrigin, leftOrigin)
+                const yInitial = getInitialPosition(bottomOrigin, topOrigin);
+
+                const animationElements = getAnimationElements(animationObjects, xInitial, yInitial);
 
                 return {
                     ...state,
-                    topBoundary: Math.floor(boundaryValues.top),
-                    bottomBoundary: Math.floor(boundaryValues.bottom) - 10,
-                    leftBoundary: Math.floor(boundaryValues.left),
-                    rightBoundary: Math.floor(boundaryValues.right),
+                    topBoundary: Math.floor(topOrigin),
+                    bottomBoundary: Math.floor(bottomOrigin),
+                    leftBoundary: Math.floor(leftOrigin),
+                    rightBoundary: Math.floor(rightOrigin),
                     resized: false,
                     animationReady: true,
                     animationElements
                 }
-            }
-            const tst = {
-                "x":103.1875,
-                "y":8,
-                "width":1808.796875,
-                "height":79.3125,
-                "top":8,
-                "right":1911.984375,
-                "bottom":87.3125,
-                "left":103.1875
             }
 
             return {
@@ -96,7 +106,9 @@ export const AnimationReducer = (state: IAnimationState, action:any): IAnimation
             console.log(`${animationActions.GET_ANIMATION_ELEMENTS}`);
 
             if(state.bottomBoundary && state.leftBoundary && state.rightBoundary && state.topBoundary) {
-                const animationElements = getAnimationElements(animationObjects, state.leftBoundary, state.rightBoundary)
+                const xInitial = getInitialPosition(state.rightBoundary, state.leftBoundary)
+                const yInitial = getInitialPosition(state.bottomBoundary, state.topBoundary);
+                const animationElements = getAnimationElements(animationObjects, xInitial, yInitial)
 
                 return {
                     ...state,
@@ -123,30 +135,30 @@ export const AnimationReducer = (state: IAnimationState, action:any): IAnimation
                     const elementWidth = element.offsetWidth
                     const elementHeight = element.offsetHeight
 
-                    let xAdjustement = X_ANIMATION_ELEMENT_ADJUSTEMENT;
-                    let yAdjustement = Y_ANIMATION_ELEMENT_ADJUSTEMENT;
-                    // console.log(`X: ${elementToBeUpdated.xPosition}`);
-                    // console.log(`Y: ${elementToBeUpdated.yPosition}`);
+                    let xAdjustement = elementToBeUpdated.xVelocity;
+                    let yAdjustement = elementToBeUpdated.yVelocity;
+                    let xChanged = false;
+                    let yChanged = false;
 
 
                     if (elementToBeUpdated.xPosition + elementWidth >= state.rightBoundary ||
                         elementToBeUpdated.xPosition <= state.leftBoundary) {
-                        // console.log(`XADJ: position => X: ${elementToBeUpdated.xPosition} / Y: ${elementToBeUpdated.yPosition}`);
-                        X_ANIMATION_ELEMENT_ADJUSTEMENT = -X_ANIMATION_ELEMENT_ADJUSTEMENT;
-                        xAdjustement = X_ANIMATION_ELEMENT_ADJUSTEMENT;
+                        xAdjustement = elementToBeUpdated.xVelocity * (-1);
+                        xChanged = true;
                     }
 
                     if (elementToBeUpdated.yPosition + elementHeight >= state.bottomBoundary ||
                         elementToBeUpdated.yPosition <= state.topBoundary) {
-                        // console.log(`YADJ: position => X: ${elementToBeUpdated.xPosition} / Y: ${elementToBeUpdated.yPosition}`);
-                        Y_ANIMATION_ELEMENT_ADJUSTEMENT = -Y_ANIMATION_ELEMENT_ADJUSTEMENT;
-                        yAdjustement = Y_ANIMATION_ELEMENT_ADJUSTEMENT;
+                        yAdjustement = elementToBeUpdated.yVelocity * (-1);
+                        yChanged = true;
                     }
 
                     state.animationElements[foundAnimationElementIndex] = {
                         ...elementToBeUpdated,
                         xPosition: elementToBeUpdated.xPosition + xAdjustement,
                         yPosition: elementToBeUpdated.yPosition + yAdjustement,
+                        xVelocity: xChanged ? xAdjustement : elementToBeUpdated.xVelocity,
+                        yVelocity: yChanged ? yAdjustement : elementToBeUpdated.yVelocity
                     }
 
                     return {
@@ -173,17 +185,75 @@ export const AnimationReducer = (state: IAnimationState, action:any): IAnimation
 const animationObjects = [
     {
         text: "JS"
+    },
+    {
+        text: "C#"
+    },
+    {
+        text: "Python"
+    },
+    {
+        text: "AWS"
+    },
+    {
+        text: "AGILE"
+    },
+    {
+        text: "React"
+    },
+    {
+        text: "TS"
+    },
+    {
+        text: "Bash"
+    },
+    {
+        text: "Linux"
+    },
+    {
+        text: "Terraform"
     }
 ]
 
-const getAnimationElements = (animationObjects: any, leftBoundary: any, topBoundary: any) => {
+const getAnimationElements = (animationObjects: any, x: any, y: any) => {
+
     const animationElements = animationObjects.map((obj: any) => {
+
+        const xVelocity = getVelocity();
+        console.log(`velocity: ${xVelocity}`)
+        const yVelocity = getVelocity();
+        console.log(`velocity: ${yVelocity}`)
+        const xSignChanger = getSignChanger();
+        console.log(`sign changer: ${xSignChanger}`);
+        const ySignChanger = getSignChanger();
+        console.log(`sign changer: ${ySignChanger}`);
+
+
         return {
             id: obj.text,
             text: obj.text,
-            xPosition: Math.floor(leftBoundary) + X_INITIAL_POSITION_OFFSET,
-            yPosition: Math.floor(topBoundary) + Y_INITIAL_POSITION_OFFSET
+            xPosition: Math.floor(x),
+            yPosition: Math.floor(y),
+            xVelocity: xVelocity * xSignChanger,
+            yVelocity: yVelocity * ySignChanger
         }
     })
+
     return animationElements
+}
+
+const getInitialPosition = (greaterBound: number, lesserBound: number) => (greaterBound - lesserBound) / 2 + lesserBound;
+
+const getVelocity = () => Number(Math.random().toFixed(2));
+
+const getSignChanger = () => {
+
+    const num = Math.random();
+
+    if(num >= 0.50) {
+
+        return 1
+    }
+
+    return -1
 }
