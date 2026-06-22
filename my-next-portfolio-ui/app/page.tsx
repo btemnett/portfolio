@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 import PortfolioComponent from "./components/portfolioComponent";
 
+
 export default function Home() {
   const animationElementskillsArray = [
     {
