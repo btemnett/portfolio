@@ -46,7 +46,9 @@ export default function Home() {
         padding: 0
       }}
     >
-      <PortfolioComponent animationElementskillsArray={animationElementskillsArray} />
+      <PortfolioComponent 
+        animationElementskillsArray={animationElementskillsArray} 
+      />
     </Grid>
   );
 }

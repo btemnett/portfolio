@@ -4,13 +4,15 @@ import { Grid, Card, CardContent, Typography } from '@mui/material'
 import AnimationElement from './animationElement'
 import { IBoundaryBox } from '@/interfaces/IBoundaryBox'
 
-export default function MainComponent(
+export default function ScreenSaverComponent(
     {
         animationElementskillsArray,
         boundaryBox,
+        showScreensaver
     }: {
-        animationElementskillsArray: Array<{ skill: string }>
-        boundaryBox: IBoundaryBox | null
+        animationElementskillsArray: Array<{ skill: string }>;
+        boundaryBox: IBoundaryBox | null;
+        showScreensaver: boolean;
     }
 ) {
 
@@ -20,16 +22,19 @@ export default function MainComponent(
         <Grid
             container
             spacing={0}
+            className="fixed inset-0 bg-black"
             style={{
                 height: '100%',
+                width: '100%',
                 justifyContent: 'center',
                 alignItems: "center",
-                position: "relative"
+                position: "relative",
+                zIndex: 99999
             }}
             id="portfolioHeader"
         >
             {
-                animationElementskillsArray && animationElementskillsArray.length > 0 ? animationElementskillsArray.map((element: { skill: string }, i: number) => {
+                showScreensaver && animationElementskillsArray && animationElementskillsArray.length > 0 ? animationElementskillsArray.map((element: { skill: string }, i: number) => {
                     return (
                         <AnimationElement key={i} element={element.skill} boundaryBox={boundaryBox} />
                     )
