@@ -99,7 +99,8 @@ export default function PortfolioComponent(
                     alignItems: "center",
                     borderShadow: "5px 10px 20px rgba(0,0,0,0.4)",
                     backdropFilter: "blur(2px)",
-                    backgroundColor: "rgba(36,240,56,0.5)"
+                    //backgroundColor: "rgba(36,240,56,0.5)"
+                    backgroundImage: "radial-gradient(circle at 60% 50%, rgba(36, 240, 56, 0.3), rgba(71, 10, 87, 0.5))"
                 }}
                 style={{minHeight: "5%", width: "100%", position: "absolute", bottom: 0, zIndex: 5000, color: "green",}}
             >
@@ -115,6 +116,7 @@ export default function PortfolioComponent(
                         quality={100}
                         width={55}
                         height={55}
+                        priority
                     />
                 </Grid>
                 <Grid size={2}>test1</Grid>
