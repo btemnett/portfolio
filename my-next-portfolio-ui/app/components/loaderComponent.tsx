@@ -1,5 +1,6 @@
 import { IApplicationDetails } from "@/interfaces/IApplicationDetails";
 import { Grid } from "@mui/material";
+import LoaderOutputComponent from "./loaderOutputComponent";
 
 
 export default function LoaderComponent(
@@ -19,7 +20,7 @@ export default function LoaderComponent(
                 color: "green",
                 boxShadow: "0 0 10px rgba(36, 240, 56,1)",
                 backdropFilter: "blur(2px)",
-                borderRadius: "10px 10px 10px 10px",
+                borderRadius: "10px 10px 0 0",
                 top: "25%",
                 left: "25%",
                 right: "25%",
@@ -27,26 +28,7 @@ export default function LoaderComponent(
                 overflow: "hidden"
             }}
         >
-            <Grid
-                sx={{
-                    width: "100%",
-                    height: "95%",
-                    backgroundColor: "rgba(12, 13, 12, 0.80)",
-                    position: "relative"
-                }}
-            >
-                <Grid
-                    sx={{
-                        width: "100%",
-                        height: "5%",
-                    }}
-                >
-                    Ben OS 42.256.1500-bos0-1 (tty1)
-                </Grid>
-                <Grid>
-                    {"[ root@bt 10:25 /]=>" + " " + `${applicationDetails.prefixes.join(" ")} ${applicationDetails.path} ${applicationDetails.flags.join(" ")}`}
-                </Grid>
-            </Grid>
+            <LoaderOutputComponent applicationDetails={applicationDetails}/>
             <Grid
                 sx={{
                     width: "100%",

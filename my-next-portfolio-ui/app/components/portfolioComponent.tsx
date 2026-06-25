@@ -65,17 +65,43 @@ export default function PortfolioComponent(
                 prefixes: [],
                 path: "/bin/run",
                 flags: ["flag1", "flag2"],
-                postFixes: []
+                postFixes: [
+                    {
+                        prefixes: [],
+                        path: "/bin/thing",
+                        flags: ["flag1", "flag2"],
+                        postFixes: []
+                    },
+                    {
+                        prefixes: [],
+                        path: "/bin/taco",
+                        flags: ["flag1", "flag2"],
+                        postFixes: []
+                    }
+                ]
             },
             {
                 prefixes: [],
-                path: "/bin/run",
+                path: "/bin/blast",
                 flags: ["flag1", "flag2"],
-                postFixes: []
+                postFixes: [
+                    {
+                        prefixes: [],
+                        path: "/bin/thing",
+                        flags: ["flag1", "flag2"],
+                        postFixes: []
+                    },
+                    {
+                        prefixes: [],
+                        path: "/bin/taco",
+                        flags: ["flag1", "flag2"],
+                        postFixes: []
+                    }
+                ]
             },
             {
                 prefixes: [],
-                path: "/bin/run",
+                path: "/bin/pop",
                 flags: ["flag1", "flag2"],
                 postFixes: []
             }
@@ -144,10 +170,50 @@ export default function PortfolioComponent(
                         onClick={handleBenOsIconOnClick}
                     />
                 </Grid>
-                <Grid size={2}>test1</Grid>
-                <Grid size={2}>test1</Grid>
-                <Grid size={2}>test1</Grid>
-                <Grid size={2}>test1</Grid>
+                <Grid size={2}>
+                    <Image
+                        src="/beholder.png"
+                        alt="Desktop background"
+                        quality={100}
+                        width={55}
+                        height={55}
+                        priority
+                        onClick={handleBenOsIconOnClick}
+                    />
+                </Grid>
+                <Grid size={2}>
+                    <Image
+                        src="/bentty.png"
+                        alt="Desktop background"
+                        quality={100}
+                        width={55}
+                        height={55}
+                        priority
+                        onClick={handleBenOsIconOnClick}
+                    />
+                </Grid>
+                <Grid size={2}>
+                    <Image
+                        src="/inbentory.png"
+                        alt="Desktop background"
+                        quality={100}
+                        width={55}
+                        height={55}
+                        priority
+                        onClick={handleBenOsIconOnClick}
+                    />
+                </Grid>
+                <Grid size={2}>
+                    <Image
+                        src="/wobengo.png"
+                        alt="Desktop background"
+                        quality={100}
+                        width={55}
+                        height={55}
+                        priority
+                        onClick={handleBenOsIconOnClick}
+                    />
+                </Grid>
             </Grid>
         </Grid>
     )
