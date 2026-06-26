@@ -10,8 +10,7 @@ export default function LoaderComponent(
         applicationDetails: IApplicationDetails
     }
 ) {
-
-
+    
     return (
         <Grid
             container

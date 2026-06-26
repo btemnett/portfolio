@@ -65,43 +65,59 @@ export default function PortfolioComponent(
                 prefixes: [],
                 path: "/bin/run",
                 flags: ["flag1", "flag2"],
-                postFixes: [
-                    {
-                        prefixes: [],
-                        path: "/bin/thing",
-                        flags: ["flag1", "flag2"],
-                        postFixes: []
-                    },
-                    {
-                        prefixes: [],
-                        path: "/bin/taco",
-                        flags: ["flag1", "flag2"],
-                        postFixes: []
-                    }
-                ]
+                postFixes: []
+            },
+            {
+                prefixes: [],
+                path: "/bin/thing",
+                flags: ["flag1", "flag2"],
+                postFixes: []
+            },
+            {
+                prefixes: [],
+                path: "/bin/taco",
+                flags: ["flag1", "flag2"],
+                postFixes: []
             },
             {
                 prefixes: [],
                 path: "/bin/blast",
                 flags: ["flag1", "flag2"],
-                postFixes: [
-                    {
-                        prefixes: [],
-                        path: "/bin/thing",
-                        flags: ["flag1", "flag2"],
-                        postFixes: []
-                    },
-                    {
-                        prefixes: [],
-                        path: "/bin/taco",
-                        flags: ["flag1", "flag2"],
-                        postFixes: []
-                    }
-                ]
+                postFixes: []
             },
             {
                 prefixes: [],
                 path: "/bin/pop",
+                flags: ["flag1", "flag2"],
+                postFixes: []
+            },
+            {
+                prefixes: [],
+                path: "/bin/thing",
+                flags: ["flag1", "flag2"],
+                postFixes: []
+            },
+            {
+                prefixes: [],
+                path: "/bin/taco",
+                flags: ["flag1", "flag2"],
+                postFixes: []
+            },
+            {
+                prefixes: [],
+                path: "/bin/taco",
+                flags: ["flag1", "flag2"],
+                postFixes: []
+            },
+            {
+                prefixes: [],
+                path: "/bin/taco",
+                flags: ["flag1", "flag2"],
+                postFixes: []
+            },
+            {
+                prefixes: [],
+                path: "/bin/taco",
                 flags: ["flag1", "flag2"],
                 postFixes: []
             }
@@ -141,7 +157,7 @@ export default function PortfolioComponent(
                 />
                 {
                     showLoaderComponent && (
-                        <LoaderComponent applicationDetails={applicationDetails}/>
+                        <LoaderComponent applicationDetails={applicationDetails} />
                     )
                 }
             </Grid>
