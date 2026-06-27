@@ -30,7 +30,10 @@ export default function LoaderComponent(
                 overflow: "hidden"
             }}
         >
-            <LoaderOutputComponent applicationDetails={applicationDetails} setShowLoaderComponent={setShowLoaderComponent}/>
+            <LoaderOutputComponent 
+                applicationDetails={applicationDetails} 
+                setShowLoaderComponent={setShowLoaderComponent}
+            />
             <Grid
                 sx={{
                     width: "100%",

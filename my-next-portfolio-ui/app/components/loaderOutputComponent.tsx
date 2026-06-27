@@ -174,7 +174,7 @@ export default function LoaderOutputComponent(
                 },
                 {
                     command: applicationDetails.postFixes[i].flags.join(" "),
-                    id: `flagh${i + 1}`,
+                    id: `flag${i + 1}`,
                     func: flagFuncs[i]
                 }
             ]
@@ -205,12 +205,12 @@ export default function LoaderOutputComponent(
                 } else {
                     commandIndex.current += 1
 
-                    if (commandIndex.current > 20 && commandIndex.current % 2 === 0) {
+                    // if (commandIndex.current > 40 && commandIndex.current % 2 === 0) {
 
-                        bottomRef.current = document.getElementById("c1")
+                    //     bottomRef.current = document.getElementById("c20")
 
-                        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    //     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+                    // }
                     if (commandIndex.current < commandArray.length) {
 
                         commandCharacterIndex.current = 0
@@ -242,8 +242,8 @@ export default function LoaderOutputComponent(
                 backgroundColor: "rgba(12, 13, 12, 0.80)",
                 overflowY: "auto",
                 position: "relative",
-                msOverflowStyle: 'none',  // IE/Edge inline
-                scrollbarWidth: 'none',   // Firefox inline
+                msOverflowStyle: 'none',
+                scrollbarWidth: 'none'
             }}
         >
             <Grid

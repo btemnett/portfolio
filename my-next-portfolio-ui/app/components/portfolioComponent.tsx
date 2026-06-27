@@ -195,7 +195,11 @@ export default function PortfolioComponent(
         >
             {
                 showScreensaver && (
-                    <ScreenSaverComponent animationElementskillsArray={animationElementskillsArray} boundaryBox={boundaryBox} showScreensaver={showScreensaver} />
+                    <ScreenSaverComponent 
+                        animationElementskillsArray={animationElementskillsArray} 
+                        boundaryBox={boundaryBox} 
+                        showScreensaver={showScreensaver} 
+                    />
                 )
             }
             <Grid
