@@ -1,13 +1,16 @@
 import { IApplicationDetails } from "@/interfaces/IApplicationDetails";
 import { Grid } from "@mui/material";
 import LoaderOutputComponent from "./loaderOutputComponent";
+import { Dispatch, SetStateAction } from "react";
 
 
 export default function LoaderComponent(
     {
-        applicationDetails
+        applicationDetails,
+        setShowLoaderComponent
     }: {
-        applicationDetails: IApplicationDetails
+        applicationDetails: IApplicationDetails,
+        setShowLoaderComponent: Dispatch<SetStateAction<boolean>>
     }
 ) {
     
@@ -27,7 +30,7 @@ export default function LoaderComponent(
                 overflow: "hidden"
             }}
         >
-            <LoaderOutputComponent applicationDetails={applicationDetails}/>
+            <LoaderOutputComponent applicationDetails={applicationDetails} setShowLoaderComponent={setShowLoaderComponent}/>
             <Grid
                 sx={{
                     width: "100%",

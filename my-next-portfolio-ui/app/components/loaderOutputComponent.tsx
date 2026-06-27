@@ -6,16 +6,18 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 export default function LoaderOutputComponent(
     {
-        applicationDetails
+        applicationDetails,
+        setShowLoaderComponent
     }: {
-        applicationDetails: IApplicationDetails
+        applicationDetails: IApplicationDetails,
+        setShowLoaderComponent: Dispatch<SetStateAction<boolean>>
     }
 ) {
     const [commandArray, setCommandArray] = useState<Array<{
         command: string;
         id: string;
         func: Dispatch<SetStateAction<string>>;
-    }>>([])
+    }>>([]);
 
     const [prefixMain, setPrefixMain] = useState("");
     const [pathMain, setPathMain] = useState("");
@@ -51,6 +53,36 @@ export default function LoaderOutputComponent(
     const [path10, setPath10] = useState("");
     const [flag10, setFlag10] = useState("");
 
+    const [path11, setPath11] = useState("");
+    const [flag11, setFlag11] = useState("");
+
+    const [path12, setPath12] = useState("");
+    const [flag12, setFlag12] = useState("");
+
+    const [path13, setPath13] = useState("");
+    const [flag13, setFlag13] = useState("");
+
+    const [path14, setPath14] = useState("");
+    const [flag14, setFlag14] = useState("");
+
+    const [path15, setPath15] = useState("");
+    const [flag15, setFlag15] = useState("");
+
+    const [path16, setPath16] = useState("");
+    const [flag16, setFlag16] = useState("");
+
+    const [path17, setPath17] = useState("");
+    const [flag17, setFlag17] = useState("");
+
+    const [path18, setPath18] = useState("");
+    const [flag18, setFlag18] = useState("");
+
+    const [path19, setPath19] = useState("");
+    const [flag19, setFlag19] = useState("");
+
+    const [path20, setPath20] = useState("");
+    const [flag20, setFlag20] = useState("");
+
     const pathFuncs = [
         setPath1,
         setPath2,
@@ -62,6 +94,16 @@ export default function LoaderOutputComponent(
         setPath8,
         setPath9,
         setPath10,
+        setPath11,
+        setPath12,
+        setPath13,
+        setPath14,
+        setPath15,
+        setPath16,
+        setPath17,
+        setPath18,
+        setPath19,
+        setPath20
     ]
     const flagFuncs = [
         setFlag1,
@@ -74,22 +116,35 @@ export default function LoaderOutputComponent(
         setFlag8,
         setFlag9,
         setFlag10,
+        setFlag11,
+        setFlag12,
+        setFlag13,
+        setFlag14,
+        setFlag15,
+        setFlag16,
+        setFlag17,
+        setFlag18,
+        setFlag19,
+        setFlag20
     ]
 
     let text: string = "";
     const commandCharacterIndex = useRef(0);
     const commandIndex = useRef(0);
     const displayTextRef = useRef("");
-
-    // let commandArray: Array<{
-    //     command: string;
-    //     id: string;
-    //     func: Dispatch<SetStateAction<string>>
-    // }> = []
+    const bottomRef = useRef<HTMLElement>(null);
 
     let j = 0
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if (containerRef.current) {
+            // Creates a dynamic style rule directly for this element instance
+            const sheet = document.styleSheets[0] || document.head.appendChild(document.createElement('style')).sheet;
+
+            // Target the container dynamically using a data attribute
+            sheet.insertRule('[data-no-scrollbar]::-webkit-scrollbar { display: none; }', 0);
+        }
         let freshCommandArray = []
         const prefixCommandObject = {
             command: applicationDetails.prefixes.join(" "),
@@ -129,7 +184,7 @@ export default function LoaderOutputComponent(
         setCommandArray(freshCommandArray);
     }, []);
 
-    let speed = 20;
+    let speed = 1;
 
 
     useEffect(() => {
@@ -150,6 +205,12 @@ export default function LoaderOutputComponent(
                 } else {
                     commandIndex.current += 1
 
+                    if (commandIndex.current > 20 && commandIndex.current % 2 === 0) {
+
+                        bottomRef.current = document.getElementById("c1")
+
+                        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+                    }
                     if (commandIndex.current < commandArray.length) {
 
                         commandCharacterIndex.current = 0
@@ -161,6 +222,7 @@ export default function LoaderOutputComponent(
                     }
                 }
             } else {
+                setShowLoaderComponent(false)
                 clearInterval(typingInterval);
             }
         }, speed);
@@ -178,7 +240,10 @@ export default function LoaderOutputComponent(
                 width: "100%",
                 height: "95%",
                 backgroundColor: "rgba(12, 13, 12, 0.80)",
-                position: "relative"
+                overflowY: "auto",
+                position: "relative",
+                msOverflowStyle: 'none',  // IE/Edge inline
+                scrollbarWidth: 'none',   // Firefox inline
             }}
         >
             <Grid
@@ -237,6 +302,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c1"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -245,7 +312,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path1"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -254,7 +321,7 @@ export default function LoaderOutputComponent(
                     {path1}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag1"
                     sx={{
                         height: "5%",
                     }}
@@ -266,6 +333,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c2"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -274,7 +343,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path2"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -283,7 +352,7 @@ export default function LoaderOutputComponent(
                     {path2}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag2"
                     sx={{
                         height: "5%",
                     }}
@@ -293,8 +362,10 @@ export default function LoaderOutputComponent(
             </Grid>
             <Grid
                 container
+                id="c3"
                 direction={"row"}
                 spacing={1}
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -303,7 +374,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path3"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -312,7 +383,7 @@ export default function LoaderOutputComponent(
                     {path3}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag3"
                     sx={{
                         height: "5%",
                     }}
@@ -324,6 +395,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c4"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -332,7 +405,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path4"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -341,7 +414,7 @@ export default function LoaderOutputComponent(
                     {path4}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag4"
                     sx={{
                         height: "5%",
                     }}
@@ -353,6 +426,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c5"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -361,7 +436,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path5"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -370,7 +445,7 @@ export default function LoaderOutputComponent(
                     {path5}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag5"
                     sx={{
                         height: "5%",
                     }}
@@ -382,6 +457,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c6"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -390,7 +467,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path6"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -399,7 +476,7 @@ export default function LoaderOutputComponent(
                     {path6}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag6"
                     sx={{
                         height: "5%",
                     }}
@@ -411,6 +488,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c7"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -419,7 +498,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path7"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -428,7 +507,7 @@ export default function LoaderOutputComponent(
                     {path7}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag7"
                     sx={{
                         height: "5%",
                     }}
@@ -440,6 +519,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c8"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -448,7 +529,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path8"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -457,7 +538,7 @@ export default function LoaderOutputComponent(
                     {path8}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag8"
                     sx={{
                         height: "5%",
                     }}
@@ -469,6 +550,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c9"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -477,7 +560,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path9"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -486,7 +569,7 @@ export default function LoaderOutputComponent(
                     {path9}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag9"
                     sx={{
                         height: "5%",
                     }}
@@ -498,6 +581,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c10"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -506,7 +591,7 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path10"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
@@ -515,7 +600,7 @@ export default function LoaderOutputComponent(
                     {path10}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag10"
                     sx={{
                         height: "5%",
                     }}
@@ -527,6 +612,8 @@ export default function LoaderOutputComponent(
                 container
                 direction={"row"}
                 spacing={1}
+                id="c11"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -535,27 +622,29 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path11"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path11}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag11"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
+                    {flag11}
                 </Grid>
             </Grid>
             <Grid
                 container
                 direction={"row"}
                 spacing={1}
+                id="c12"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -564,27 +653,29 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path12"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path12}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag12"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
+                    {flag12}
                 </Grid>
             </Grid>
             <Grid
                 container
                 direction={"row"}
                 spacing={1}
+                id="c13"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -593,27 +684,29 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path13"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path13}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag13"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
+                    {flag13}
                 </Grid>
             </Grid>
             <Grid
                 container
                 direction={"row"}
                 spacing={1}
+                id="c14"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -622,27 +715,29 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path14"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path14}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag14"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
+                    {flag14}
                 </Grid>
             </Grid>
             <Grid
                 container
                 direction={"row"}
                 spacing={1}
+                id="c15"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -651,27 +746,29 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path15"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path15}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag15"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
+                    {flag15}
                 </Grid>
             </Grid>
             <Grid
                 container
                 direction={"row"}
                 spacing={1}
+                id="c16"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -680,27 +777,29 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path16"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path16}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag16"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
+                    {flag16}
                 </Grid>
             </Grid>
             <Grid
                 container
                 direction={"row"}
                 spacing={1}
+                id="c17"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -709,27 +808,29 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path17"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path17}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag17"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
+                    {flag17}
                 </Grid>
             </Grid>
             <Grid
                 container
                 direction={"row"}
                 spacing={1}
+                id="c18"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -738,27 +839,29 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path18"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path18}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag18"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
+                    {flag18}
                 </Grid>
             </Grid>
             <Grid
                 container
                 direction={"row"}
                 spacing={1}
+                id="c19"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -767,27 +870,29 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path19"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path19}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag19"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
+                    {flag19}
                 </Grid>
             </Grid>
             <Grid
                 container
                 direction={"row"}
                 spacing={1}
+                id="c20"
+
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -796,201 +901,52 @@ export default function LoaderOutputComponent(
                 }}
             >
                 <Grid
-                    id="prefixMain"
+                    id="path20"
                     sx={{
                         paddingLeft: "10%",
                         height: "5%",
                     }}
                 >
-                    {path10}
+                    {path20}
                 </Grid>
                 <Grid
-                    id="pathMain"
+                    id="flag20"
                     sx={{
                         height: "5%",
                     }}
                 >
-                    {flag10}
-                </Grid>
-            </Grid>
-            <Grid
-                container
-                direction={"row"}
-                spacing={1}
-                sx={{
-                    width: "100%",
-                    height: "5%",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                }}
-            >
-                <Grid
-                    id="prefixMain"
-                    sx={{
-                        paddingLeft: "10%",
-                        height: "5%",
-                    }}
-                >
-                    {path10}
-                </Grid>
-                <Grid
-                    id="pathMain"
-                    sx={{
-                        height: "5%",
-                    }}
-                >
-                    {flag10}
-                </Grid>
-            </Grid>
-            <Grid
-                container
-                direction={"row"}
-                spacing={1}
-                sx={{
-                    width: "100%",
-                    height: "5%",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                }}
-            >
-                <Grid
-                    id="prefixMain"
-                    sx={{
-                        paddingLeft: "10%",
-                        height: "5%",
-                    }}
-                >
-                    {path10}
-                </Grid>
-                <Grid
-                    id="pathMain"
-                    sx={{
-                        height: "5%",
-                    }}
-                >
-                    {flag10}
-                </Grid>
-            </Grid>
-            <Grid
-                container
-                direction={"row"}
-                spacing={1}
-                sx={{
-                    width: "100%",
-                    height: "5%",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                }}
-            >
-                <Grid
-                    id="prefixMain"
-                    sx={{
-                        paddingLeft: "10%",
-                        height: "5%",
-                    }}
-                >
-                    {path10}
-                </Grid>
-                <Grid
-                    id="pathMain"
-                    sx={{
-                        height: "5%",
-                    }}
-                >
-                    {flag10}
-                </Grid>
-            </Grid>
-            <Grid
-                container
-                direction={"row"}
-                spacing={1}
-                sx={{
-                    width: "100%",
-                    height: "5%",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                }}
-            >
-                <Grid
-                    id="prefixMain"
-                    sx={{
-                        paddingLeft: "10%",
-                        height: "5%",
-                    }}
-                >
-                    {path10}
-                </Grid>
-                <Grid
-                    id="pathMain"
-                    sx={{
-                        height: "5%",
-                    }}
-                >
-                    {flag10}
-                </Grid>
-            </Grid>
-            <Grid
-                container
-                direction={"row"}
-                spacing={1}
-                sx={{
-                    width: "100%",
-                    height: "5%",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                }}
-            >
-                <Grid
-                    id="prefixMain"
-                    sx={{
-                        paddingLeft: "10%",
-                        height: "5%",
-                    }}
-                >
-                    {path10}
-                </Grid>
-                <Grid
-                    id="pathMain"
-                    sx={{
-                        height: "5%",
-                    }}
-                >
-                    {flag10}
-                </Grid>
-            </Grid>
-            <Grid
-                container
-                direction={"row"}
-                spacing={1}
-                sx={{
-                    width: "100%",
-                    height: "5%",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                }}
-            >
-                <Grid
-                    id="prefixMain"
-                    sx={{
-                        paddingLeft: "10%",
-                        height: "5%",
-                    }}
-                >
-                    {path10}
-                </Grid>
-                <Grid
-                    id="pathMain"
-                    sx={{
-                        height: "5%",
-                    }}
-                >
-                    {flag10}
+                    {flag20}
                 </Grid>
             </Grid>
         </Grid>
     )
 }
 
+
+const getNewOrder = (order: Array<string>) => {
+    console.log(`Old order: ${JSON.stringify(order)}`)
+    const indexOfDummy = order.findIndex(x => x === "dummy");
+    console.log(`index of dumm7: ${indexOfDummy}`)
+    const frontHalf = order.slice(0, indexOfDummy);
+    console.log(`front: ${JSON.stringify(frontHalf)}`)
+    const backHalf = order.slice(indexOfDummy + 2);
+
+    console.log(`back: ${JSON.stringify(backHalf)}`)
+
+    const shiftedOrder = order[indexOfDummy + 1];
+    console.log(`shift: ${JSON.stringify(shiftedOrder)}`)
+
+    let newOrder = frontHalf
+
+    if (shiftedOrder) {
+        newOrder.push(shiftedOrder)
+    }
+
+    newOrder.push("dummy");
+    newOrder = newOrder.concat(backHalf)
+    console.log(JSON.stringify(newOrder))
+    return newOrder;
+}
 const getPostFixOutputArray = (providedPostfixes: Array<ICommand>) => {
 
     let returnedPostfixes: Array<string> = []
