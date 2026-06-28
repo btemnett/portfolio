@@ -2,15 +2,20 @@ import { IApplicationDetails } from "@/interfaces/IApplicationDetails";
 import { Grid } from "@mui/material";
 import LoaderOutputComponent from "./loaderOutputComponent";
 import { Dispatch, SetStateAction } from "react";
+import { App } from "@/enums/App";
 
 
 export default function LoaderComponent(
     {
         applicationDetails,
-        setShowLoaderComponent
+        setShowLoaderComponent,
+        app,
+        showAppFunction
     }: {
         applicationDetails: IApplicationDetails,
-        setShowLoaderComponent: Dispatch<SetStateAction<boolean>>
+        setShowLoaderComponent: Dispatch<SetStateAction<boolean>>,
+        app: App
+        showAppFunction: Dispatch<SetStateAction<boolean>>,
     }
 ) {
     
@@ -33,6 +38,8 @@ export default function LoaderComponent(
             <LoaderOutputComponent 
                 applicationDetails={applicationDetails} 
                 setShowLoaderComponent={setShowLoaderComponent}
+                app={app}
+                showAppFunction={showAppFunction}
             />
             <Grid
                 sx={{

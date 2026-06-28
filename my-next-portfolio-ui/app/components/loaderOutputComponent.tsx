@@ -1,3 +1,4 @@
+import { App } from "@/enums/App";
 import { IApplicationDetails } from "@/interfaces/IApplicationDetails";
 import { ICommand } from "@/interfaces/ICommand";
 import { Grid } from "@mui/material";
@@ -7,10 +8,14 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 export default function LoaderOutputComponent(
     {
         applicationDetails,
-        setShowLoaderComponent
+        setShowLoaderComponent,
+        app,
+        showAppFunction
     }: {
-        applicationDetails: IApplicationDetails,
-        setShowLoaderComponent: Dispatch<SetStateAction<boolean>>
+        applicationDetails: IApplicationDetails
+        setShowLoaderComponent: Dispatch<SetStateAction<boolean>>,
+        app: App
+        showAppFunction: Dispatch<SetStateAction<boolean>>
     }
 ) {
     const [commandArray, setCommandArray] = useState<Array<{
@@ -134,6 +139,9 @@ export default function LoaderOutputComponent(
     const displayTextRef = useRef("");
     const bottomRef = useRef<HTMLElement>(null);
 
+    // const [isIntersecting, setIsIntersecting] = useState(false);
+    // const textRef = useRef<HTMLDivElement>(null);
+
     let j = 0
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -182,6 +190,19 @@ export default function LoaderOutputComponent(
         }
 
         setCommandArray(freshCommandArray);
+
+        // const observer = new IntersectionObserver(
+        //     ([entry]) => {
+        //         setIsIntersecting(entry.isIntersecting);
+        //     },
+        //     { threshold: 0.1 }
+        // );
+
+        // if (textRef.current) {
+        //     observer.observe(textRef.current);
+        // }
+
+        // return () => observer.disconnect();
     }, []);
 
     let speed = 1;
@@ -223,6 +244,7 @@ export default function LoaderOutputComponent(
                 }
             } else {
                 setShowLoaderComponent(false)
+                showAppFunction(true)
                 clearInterval(typingInterval);
             }
         }, speed);
@@ -232,6 +254,13 @@ export default function LoaderOutputComponent(
         return () => clearInterval(typingInterval);
 
     }, [commandArray]);
+
+    // useEffect(() => {
+    //     // 2. Scroll if text exists and element is NOT in view
+    //     if (path18.length > 0 && !isIntersecting && textRef.current) {
+    //         textRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    //     }
+    // }, [path18, flag18, isIntersecting]);
 
 
     return (
@@ -768,7 +797,6 @@ export default function LoaderOutputComponent(
                 direction={"row"}
                 spacing={1}
                 id="c16"
-
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -830,7 +858,7 @@ export default function LoaderOutputComponent(
                 direction={"row"}
                 spacing={1}
                 id="c18"
-
+                // ref={textRef}
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -892,7 +920,6 @@ export default function LoaderOutputComponent(
                 direction={"row"}
                 spacing={1}
                 id="c20"
-
                 sx={{
                     width: "100%",
                     height: "5%",
@@ -923,45 +950,45 @@ export default function LoaderOutputComponent(
 }
 
 
-const getNewOrder = (order: Array<string>) => {
-    console.log(`Old order: ${JSON.stringify(order)}`)
-    const indexOfDummy = order.findIndex(x => x === "dummy");
-    console.log(`index of dumm7: ${indexOfDummy}`)
-    const frontHalf = order.slice(0, indexOfDummy);
-    console.log(`front: ${JSON.stringify(frontHalf)}`)
-    const backHalf = order.slice(indexOfDummy + 2);
+// const getNewOrder = (order: Array<string>) => {
+//     console.log(`Old order: ${JSON.stringify(order)}`)
+//     const indexOfDummy = order.findIndex(x => x === "dummy");
+//     console.log(`index of dumm7: ${indexOfDummy}`)
+//     const frontHalf = order.slice(0, indexOfDummy);
+//     console.log(`front: ${JSON.stringify(frontHalf)}`)
+//     const backHalf = order.slice(indexOfDummy + 2);
 
-    console.log(`back: ${JSON.stringify(backHalf)}`)
+//     console.log(`back: ${JSON.stringify(backHalf)}`)
 
-    const shiftedOrder = order[indexOfDummy + 1];
-    console.log(`shift: ${JSON.stringify(shiftedOrder)}`)
+//     const shiftedOrder = order[indexOfDummy + 1];
+//     console.log(`shift: ${JSON.stringify(shiftedOrder)}`)
 
-    let newOrder = frontHalf
+//     let newOrder = frontHalf
 
-    if (shiftedOrder) {
-        newOrder.push(shiftedOrder)
-    }
+//     if (shiftedOrder) {
+//         newOrder.push(shiftedOrder)
+//     }
 
-    newOrder.push("dummy");
-    newOrder = newOrder.concat(backHalf)
-    console.log(JSON.stringify(newOrder))
-    return newOrder;
-}
-const getPostFixOutputArray = (providedPostfixes: Array<ICommand>) => {
+//     newOrder.push("dummy");
+//     newOrder = newOrder.concat(backHalf)
+//     console.log(JSON.stringify(newOrder))
+//     return newOrder;
+// }
+// const getPostFixOutputArray = (providedPostfixes: Array<ICommand>) => {
 
-    let returnedPostfixes: Array<string> = []
+//     let returnedPostfixes: Array<string> = []
 
-    let currentPostFixIndex = 0;
-    while (currentPostFixIndex < providedPostfixes.length) {
-        const postFix = `${providedPostfixes[currentPostFixIndex].prefixes.join(" ")} ${providedPostfixes[currentPostFixIndex].path} ${providedPostfixes[currentPostFixIndex].flags.join(" ")}`;
+//     let currentPostFixIndex = 0;
+//     while (currentPostFixIndex < providedPostfixes.length) {
+//         const postFix = `${providedPostfixes[currentPostFixIndex].prefixes.join(" ")} ${providedPostfixes[currentPostFixIndex].path} ${providedPostfixes[currentPostFixIndex].flags.join(" ")}`;
 
-        if (providedPostfixes[currentPostFixIndex].postFixes.length > 0) {
-            returnedPostfixes = returnedPostfixes.concat([postFix]).concat(getPostFixOutputArray(providedPostfixes[currentPostFixIndex].postFixes));
-        } else {
-            returnedPostfixes.push(postFix);
-        }
-        currentPostFixIndex++;
-    }
+//         if (providedPostfixes[currentPostFixIndex].postFixes.length > 0) {
+//             returnedPostfixes = returnedPostfixes.concat([postFix]).concat(getPostFixOutputArray(providedPostfixes[currentPostFixIndex].postFixes));
+//         } else {
+//             returnedPostfixes.push(postFix);
+//         }
+//         currentPostFixIndex++;
+//     }
 
-    return returnedPostfixes;
-}
+//     return returnedPostfixes;
+// }

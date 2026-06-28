@@ -2,11 +2,15 @@
 
 import { Grid } from '@mui/material';
 import ScreenSaverComponent from './screenSaverComponent';
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { IBoundaryBox } from '@/interfaces/IBoundaryBox';
 import { useInactivityTimer } from '../hooks/screenSaverHook';
 import Image from 'next/image';
 import LoaderComponent from './loaderComponent';
+import { App } from '@/enums/App';
+import WobengoComponent from './wobengo';
+import { useMousePosition } from '../hooks/mousePositionHook';
+import { percentageToPixels } from '../utils/percentageToPixels';
 
 
 export default function PortfolioComponent(
@@ -17,8 +21,13 @@ export default function PortfolioComponent(
     }
 ) {
 
+    const desktopContainerRef = useRef<HTMLDivElement>(null);
+
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
     const [boundaryBox, setBoundaryBox] = useState<IBoundaryBox | null>(null)
+    const [app, setApp] = useState<App>(App.BEN_OS);
+
+    const { mousex, mousey } = useMousePosition();
 
     // loader component
     const [showLoaderComponent, setShowLoaderComponent] = useState<boolean>(false);
@@ -28,14 +37,122 @@ export default function PortfolioComponent(
     const showScreensaver = seconds >= 100;
 
     // ben os icon
+    const [showBenOsComponent, setShowBenOsComponent] = useState<boolean>(false);
+    const [benOsPosition, setBenOsPosition] = useState({ x: 10, y: 10 });
+
+
     const handleBenOsIconOnClick = () => {
+        setApp(App.BEN_OS);
+        setShowAppFunction(() => setShowBenOsComponent);
         setShowLoaderComponent(!showLoaderComponent);
     }
+
+    // wobengo
+    const [showWobengoComponent, setShowWobengoComponent] = useState<boolean>(false);
+    const [wobengoPosition, setWebengoPosition] = useState({ x: 10, y: 10 });
+
+    const handleWobengoIconOnClick = () => {
+        setApp(App.WOBENGO);
+        setShowAppFunction(() => setShowWobengoComponent);
+        setShowLoaderComponent(!showLoaderComponent);
+    }
+
+    // bentty
+    const [showBenttyComponent, setShowBenttyComponent] = useState<boolean>(false);
+
+    const handleBenttyIconOnClick = () => {
+        setApp(App.BENTTY);
+        setShowAppFunction(() => setShowBenttyComponent);
+        setShowLoaderComponent(!showLoaderComponent);
+    }
+
+    // bholder
+    const [showBholderComponent, setShowBholderComponent] = useState<boolean>(false);
+
+    const handleBholderIconOnClick = () => {
+        setApp(App.BHOLDER);
+        setShowAppFunction(() => setShowBholderComponent);
+        setShowLoaderComponent(!showLoaderComponent);
+    }
+
+    // inbentory
+    const [showInbentoryComponent, setShowInbentoryComponent] = useState<boolean>(false);
+
+    const handleInbentoryIconOnClick = () => {
+        setApp(App.INBENTORY);
+        setShowAppFunction(() => setShowInbentoryComponent);
+        setShowLoaderComponent(!showLoaderComponent);
+    }
+
+    // beep boop bop
+    const [showBeepBoopBopComponent, setShowBeepBoopBopComponent] = useState<boolean>(false);
+
+    const handleBeepBoopBopIconOnClick = () => {
+        setApp(App.BEEP_BOOP_BOP);
+        setShowAppFunction(() => setShowBeepBoopBopComponent);
+        setShowLoaderComponent(!showLoaderComponent);
+    }
+
+
+
+
+
+    const [showAppFunction, setShowAppFunction] = useState<Dispatch<SetStateAction<boolean>>>(setShowBenOsComponent);
+    const [appPositionFunction, setAppPositionFunction] = useState<Dispatch<SetStateAction<{ x: number; y: number }>>>(setBenOsPosition);
+
+
+    const onDragStart = (e: any, id: string) => {
+
+        const rect = e.currentTarget?.getBoundingClientRect();
+        const obj = {
+            id,
+            appPositionX: rect.left,
+            appPositionY: rect.top,
+            mousex,
+            mousey
+        }
+        console.log(JSON.stringify(obj))
+        e.dataTransfer?.setData("text/plain", JSON.stringify(obj));
+
+        let func = () => setBenOsPosition
+        switch (id) {
+            case App.WOBENGO:
+                func = () => setWebengoPosition
+                break;
+            default:
+                break
+        }
+        setAppPositionFunction(() => func)
+    };
+
+    const onDragOver = (e: any) => {
+        e.preventDefault();
+    };
+
+    const onDrop = (e: any, targetId: string) => {
+        e.preventDefault();
+        const stringifiedObj = e.dataTransfer?.getData("text/plain");
+        const obj = JSON.parse(stringifiedObj)
+
+        const initialXDiff = obj.mousex - obj.appPositionX;
+        const initialYDiff = obj.mousey - obj.appPositionY;
+
+        appPositionFunction({ x: e.clientX - initialXDiff, y: e.clientY - initialYDiff })
+    };
 
     // use effects
     useEffect(() => {
         const currentBoundaryBox = getBoundaryBox();
         setBoundaryBox(currentBoundaryBox);
+        if (desktopContainerRef.current) {
+
+            const containerWidth = desktopContainerRef.current.clientWidth;
+            const containerHeight = desktopContainerRef.current.clientHeight;
+
+            const calculatedPxWidth = percentageToPixels(25, containerWidth);
+            const calculatedPxHeight = percentageToPixels(25, containerHeight);
+            setWebengoPosition({ x: calculatedPxWidth, y: calculatedPxHeight })
+        }
     }, [])
 
     useEffect(() => {
@@ -195,10 +312,10 @@ export default function PortfolioComponent(
         >
             {
                 showScreensaver && (
-                    <ScreenSaverComponent 
-                        animationElementskillsArray={animationElementskillsArray} 
-                        boundaryBox={boundaryBox} 
-                        showScreensaver={showScreensaver} 
+                    <ScreenSaverComponent
+                        animationElementskillsArray={animationElementskillsArray}
+                        boundaryBox={boundaryBox}
+                        showScreensaver={showScreensaver}
                     />
                 )
             }
@@ -209,6 +326,7 @@ export default function PortfolioComponent(
                     overflow: "hidden",
                     position: "relative"
                 }}
+                ref={desktopContainerRef}
             >
                 <Image
                     src="/desktop_background.jpg"
@@ -218,10 +336,28 @@ export default function PortfolioComponent(
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover"
                     priority
+                    onDragOver={onDragOver}
+                    onDrop={(e: any) => onDrop(e, "webengo")}
                 />
                 {
                     showLoaderComponent && (
-                        <LoaderComponent applicationDetails={applicationDetails} setShowLoaderComponent={setShowLoaderComponent} />
+                        <LoaderComponent
+                            applicationDetails={applicationDetails}
+                            setShowLoaderComponent={setShowLoaderComponent}
+                            app={app}
+                            showAppFunction={showAppFunction}
+                        />
+                    )
+                }
+                {
+                    showWobengoComponent && (
+                        <WobengoComponent
+                            setShowWobengoComponent={setShowWobengoComponent}
+                            appPosition={wobengoPosition}
+                            onDragStart={onDragStart}
+                            onDragOver={onDragOver}
+                            onDrop={onDrop}
+                        />
                     )
                 }
             </Grid>
@@ -258,7 +394,7 @@ export default function PortfolioComponent(
                         width={55}
                         height={55}
                         priority
-                        onClick={handleBenOsIconOnClick}
+                        onClick={handleBholderIconOnClick}
                     />
                 </Grid>
                 <Grid size={2}>
@@ -269,7 +405,7 @@ export default function PortfolioComponent(
                         width={55}
                         height={55}
                         priority
-                        onClick={handleBenOsIconOnClick}
+                        onClick={handleBenttyIconOnClick}
                     />
                 </Grid>
                 <Grid size={2}>
@@ -280,7 +416,7 @@ export default function PortfolioComponent(
                         width={55}
                         height={55}
                         priority
-                        onClick={handleBenOsIconOnClick}
+                        onClick={handleInbentoryIconOnClick}
                     />
                 </Grid>
                 <Grid size={2}>
@@ -291,7 +427,7 @@ export default function PortfolioComponent(
                         width={55}
                         height={55}
                         priority
-                        onClick={handleBenOsIconOnClick}
+                        onClick={handleWobengoIconOnClick}
                     />
                 </Grid>
             </Grid>
