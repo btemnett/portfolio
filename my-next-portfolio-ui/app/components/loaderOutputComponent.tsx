@@ -25,69 +25,69 @@ export default function LoaderOutputComponent(
     }
 ) {
 
-    const [prefixMain, setPrefixMain] = useState("");
-    const [pathMain, setPathMain] = useState("");
-    const [flagMain, setFlagMain] = useState("");
+    const [prefixMain, setPrefixMain] = useState<string>("");
+    const [pathMain, setPathMain] = useState<string>("");
+    const [flagMain, setFlagMain] = useState<string>("");
 
-    const [path1, setPath1] = useState("");
-    const [flag1, setFlag1] = useState("");
+    const [path1, setPath1] = useState<string>("");
+    const [flag1, setFlag1] = useState<string>("");
 
-    const [path2, setPath2] = useState("");
-    const [flag2, setFlag2] = useState("");
+    const [path2, setPath2] = useState<string>("");
+    const [flag2, setFlag2] = useState<string>("");
 
-    const [path3, setPath3] = useState("");
-    const [flag3, setFlag3] = useState("");
+    const [path3, setPath3] = useState<string>("");
+    const [flag3, setFlag3] = useState<string>("");
 
-    const [path4, setPath4] = useState("");
-    const [flag4, setFlag4] = useState("");
+    const [path4, setPath4] = useState<string>("");
+    const [flag4, setFlag4] = useState<string>("");
 
-    const [path5, setPath5] = useState("");
-    const [flag5, setFlag5] = useState("");
+    const [path5, setPath5] = useState<string>("");
+    const [flag5, setFlag5] = useState<string>("");
 
-    const [path6, setPath6] = useState("");
-    const [flag6, setFlag6] = useState("");
+    const [path6, setPath6] = useState<string>("");
+    const [flag6, setFlag6] = useState<string>("");
 
-    const [path7, setPath7] = useState("");
-    const [flag7, setFlag7] = useState("");
+    const [path7, setPath7] = useState<string>("");
+    const [flag7, setFlag7] = useState<string>("");
 
-    const [path8, setPath8] = useState("");
-    const [flag8, setFlag8] = useState("");
+    const [path8, setPath8] = useState<string>("");
+    const [flag8, setFlag8] = useState<string>("");
 
-    const [path9, setPath9] = useState("");
-    const [flag9, setFlag9] = useState("");
+    const [path9, setPath9] = useState<string>("");
+    const [flag9, setFlag9] = useState<string>("");
 
-    const [path10, setPath10] = useState("");
-    const [flag10, setFlag10] = useState("");
+    const [path10, setPath10] = useState<string>("");
+    const [flag10, setFlag10] = useState<string>("");
 
-    const [path11, setPath11] = useState("");
-    const [flag11, setFlag11] = useState("");
+    const [path11, setPath11] = useState<string>("");
+    const [flag11, setFlag11] = useState<string>("");
 
-    const [path12, setPath12] = useState("");
-    const [flag12, setFlag12] = useState("");
+    const [path12, setPath12] = useState<string>("");
+    const [flag12, setFlag12] = useState<string>("");
 
-    const [path13, setPath13] = useState("");
-    const [flag13, setFlag13] = useState("");
+    const [path13, setPath13] = useState<string>("");
+    const [flag13, setFlag13] = useState<string>("");
 
-    const [path14, setPath14] = useState("");
-    const [flag14, setFlag14] = useState("");
+    const [path14, setPath14] = useState<string>("");
+    const [flag14, setFlag14] = useState<string>("");
 
-    const [path15, setPath15] = useState("");
-    const [flag15, setFlag15] = useState("");
+    const [path15, setPath15] = useState<string>("");
+    const [flag15, setFlag15] = useState<string>("");
 
-    const [path16, setPath16] = useState("");
-    const [flag16, setFlag16] = useState("");
+    const [path16, setPath16] = useState<string>("");
+    const [flag16, setFlag16] = useState<string>("");
 
-    const [path17, setPath17] = useState("");
-    const [flag17, setFlag17] = useState("");
+    const [path17, setPath17] = useState<string>("");
+    const [flag17, setFlag17] = useState<string>("");
 
-    const [path18, setPath18] = useState("");
-    const [flag18, setFlag18] = useState("");
+    const [path18, setPath18] = useState<string>("");
+    const [flag18, setFlag18] = useState<string>("");
 
-    const [path19, setPath19] = useState("");
-    const [flag19, setFlag19] = useState("");
+    const [path19, setPath19] = useState<string>("");
+    const [flag19, setFlag19] = useState<string>("");
 
-    const [path20, setPath20] = useState("");
-    const [flag20, setFlag20] = useState("");
+    const [path20, setPath20] = useState<string>("");
+    const [flag20, setFlag20] = useState<string>("");
 
     const pathFuncs = [
         setPath1,

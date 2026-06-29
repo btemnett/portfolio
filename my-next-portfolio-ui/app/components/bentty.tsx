@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { Dispatch, RefObject, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { App } from "@/enums/App";
 
 
@@ -22,8 +22,23 @@ export default function BenttyComponent(
     }
 ) {
 
-    const [webengoMaxWidth, setWebengoMaxWidth] = useState<string>("50%")
-    const [webengoMaxHeight, setWebengoMaxHeight] = useState<string>("50%")
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const [benttyMaxWidth, setBenttyMaxWidth] = useState<string>("50%")
+    const [benttyMaxHeight, setBenttyMaxHeight] = useState<string>("50%")
+    const [command, setCommand] = useState<string>("50%")
+    const displayTextRef = useRef<string>("");
+
+    useEffect(() => {
+        if (containerRef.current) {
+            // Creates a dynamic style rule directly for this element instance
+            const sheet = document.styleSheets[0] || document.head.appendChild(document.createElement('style')).sheet;
+
+            // Target the container dynamically using a data attribute
+            sheet.insertRule('[data-no-scrollbar]::-webkit-scrollbar { display: none; }', 0);
+        }
+    }, []);
+
 
     useEffect(() => {
         if (desktopContainerRef?.current) {
@@ -31,8 +46,8 @@ export default function BenttyComponent(
             const containerWidth = desktopContainerRef.current.clientWidth;
             const containerHeight = desktopContainerRef.current.clientHeight;
 
-            setWebengoMaxWidth(containerWidth.toString())
-            setWebengoMaxHeight(containerHeight.toString())
+            setBenttyMaxWidth(containerWidth.toString())
+            setBenttyMaxHeight(containerHeight.toString())
         }
     }, [desktopContainerRef])
 
@@ -59,16 +74,62 @@ export default function BenttyComponent(
                 height: "50%",
                 width: "50%",
                 resize: "both",
-                overflow: "auto",
-                maxWidth: webengoMaxWidth,
-                maxHeight: webengoMaxHeight
+                overflow: "hidden",
+                maxWidth: benttyMaxWidth,
+                maxHeight: benttyMaxHeight
             }}
         >
+            <Grid
+                sx={{
+                    width: "100%",
+                    height: "95%",
+                    backgroundColor: "rgba(12, 13, 12, 0.80)",
+                    overflowY: "auto",
+                    position: "relative",
+                    msOverflowStyle: 'none',
+                    scrollbarWidth: 'none'
+                }}
+            >
+                <Grid
+                    sx={{
+                        width: "100%",
+                        height: "5%",
+                    }}
+                >
+                    Ben OS 42.256.1500-bos0-1 (tty1)
+                </Grid>
+                <Grid
+                    container
+                    direction={"row"}
+                    spacing={1}
+                    sx={{
+                        width: "100%",
+                        height: "5%",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                    }}
+                >
+                    <Grid
+                        id="ps"
+                        sx={{
+                            height: "5%",
+                        }}
+                    >
+                        {"[ root@bt 10:25 /]=>"}
+                    </Grid>
+                    <Grid>
+                        { }
+                    </Grid>
+                </Grid>
+            </Grid>
             <Grid
                 container
                 direction={"row"}
                 sx={{
-                    width: "100%"
+                    width: "100%",
+                    height: "5%",
+                    backgroundImage: "linear-gradient(to left, rgba(36, 240, 56, 0.3), rgba(71, 10, 87, 0.5))",
+                    position: "relative"
                 }}
             >
                 <Grid
@@ -87,7 +148,6 @@ export default function BenttyComponent(
                     X
                 </Grid>
             </Grid>
-            <Grid>THINGS</Grid>
         </Grid>
     )
 }
