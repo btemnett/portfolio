@@ -2,7 +2,7 @@
 
 import { Grid } from '@mui/material';
 import ScreenSaverComponent from './screenSaverComponent';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IBoundaryBox } from '@/interfaces/IBoundaryBox';
 import { useInactivityTimer } from '../hooks/screenSaverHook';
 import Image from 'next/image';
@@ -11,6 +11,11 @@ import { App } from '@/enums/App';
 import WobengoComponent from './wobengo';
 import { useMousePosition } from '../hooks/mousePositionHook';
 import { percentageToPixels } from '../utils/percentageToPixels';
+import InbentoryComponent from './inbentory';
+import BHolderComponent from './beholder';
+import BenttyComponent from './bentty';
+import BeepBoopBopComponent from './beepBoopBop';
+import BenOsComponent from './benOs';
 
 
 export default function PortfolioComponent(
@@ -42,9 +47,10 @@ export default function PortfolioComponent(
 
 
     const handleBenOsIconOnClick = () => {
-        setApp(App.BEN_OS);
-        setShowAppFunction(() => setShowBenOsComponent);
-        setShowLoaderComponent(!showLoaderComponent);
+        if (!showBenOsComponent) {
+            setShowLoaderComponent(true);
+            setApp(App.BEN_OS);
+        }
     }
 
     // wobengo
@@ -52,54 +58,58 @@ export default function PortfolioComponent(
     const [wobengoPosition, setWebengoPosition] = useState({ x: 10, y: 10 });
 
     const handleWobengoIconOnClick = () => {
-        setApp(App.WOBENGO);
-        setShowAppFunction(() => setShowWobengoComponent);
-        setShowLoaderComponent(!showLoaderComponent);
+        if (!showWobengoComponent) {
+            setShowLoaderComponent(true);
+            setApp(App.WOBENGO);
+        }
     }
 
     // bentty
     const [showBenttyComponent, setShowBenttyComponent] = useState<boolean>(false);
+    const [benttyPosition, setBenttyPosition] = useState({ x: 10, y: 10 });
+
 
     const handleBenttyIconOnClick = () => {
-        setApp(App.BENTTY);
-        setShowAppFunction(() => setShowBenttyComponent);
-        setShowLoaderComponent(!showLoaderComponent);
+        if (!showBenttyComponent) {
+            setShowLoaderComponent(true);
+            setApp(App.BENTTY);
+        }
     }
 
     // bholder
     const [showBholderComponent, setShowBholderComponent] = useState<boolean>(false);
+    const [bholderPosition, setBholderPosition] = useState({ x: 10, y: 10 });
+
 
     const handleBholderIconOnClick = () => {
-        setApp(App.BHOLDER);
-        setShowAppFunction(() => setShowBholderComponent);
-        setShowLoaderComponent(!showLoaderComponent);
+        if (!showBholderComponent) {
+            setShowLoaderComponent(true);
+            setApp(App.BHOLDER);
+        }
     }
 
     // inbentory
     const [showInbentoryComponent, setShowInbentoryComponent] = useState<boolean>(false);
+    const [inbentoryPosition, setInbentoryPosition] = useState({ x: 10, y: 10 });
+
 
     const handleInbentoryIconOnClick = () => {
-        setApp(App.INBENTORY);
-        setShowAppFunction(() => setShowInbentoryComponent);
-        setShowLoaderComponent(!showLoaderComponent);
+        if (!showInbentoryComponent) {
+            setShowLoaderComponent(true);
+            setApp(App.INBENTORY);
+        }
     }
 
     // beep boop bop
     const [showBeepBoopBopComponent, setShowBeepBoopBopComponent] = useState<boolean>(false);
+    const [beepBoopBopPosition, setBeepBoopBopPosition] = useState({ x: 10, y: 10 });
 
     const handleBeepBoopBopIconOnClick = () => {
-        setApp(App.BEEP_BOOP_BOP);
-        setShowAppFunction(() => setShowBeepBoopBopComponent);
-        setShowLoaderComponent(!showLoaderComponent);
+        if (!showBeepBoopBopComponent) {
+            setShowLoaderComponent(true);
+            setApp(App.BEEP_BOOP_BOP);
+        }
     }
-
-
-
-
-
-    const [showAppFunction, setShowAppFunction] = useState<Dispatch<SetStateAction<boolean>>>(setShowBenOsComponent);
-    const [appPositionFunction, setAppPositionFunction] = useState<Dispatch<SetStateAction<{ x: number; y: number }>>>(setBenOsPosition);
-
 
     const onDragStart = (e: any, id: string) => {
 
@@ -113,31 +123,43 @@ export default function PortfolioComponent(
         }
         console.log(JSON.stringify(obj))
         e.dataTransfer?.setData("text/plain", JSON.stringify(obj));
-
-        let func = () => setBenOsPosition
-        switch (id) {
-            case App.WOBENGO:
-                func = () => setWebengoPosition
-                break;
-            default:
-                break
-        }
-        setAppPositionFunction(() => func)
     };
 
     const onDragOver = (e: any) => {
         e.preventDefault();
     };
 
-    const onDrop = (e: any, targetId: string) => {
+    const onDrop = (e: any) => {
         e.preventDefault();
         const stringifiedObj = e.dataTransfer?.getData("text/plain");
         const obj = JSON.parse(stringifiedObj)
 
         const initialXDiff = obj.mousex - obj.appPositionX;
         const initialYDiff = obj.mousey - obj.appPositionY;
+        const newPositionCoords = { x: e.clientX - initialXDiff, y: e.clientY - initialYDiff }
 
-        appPositionFunction({ x: e.clientX - initialXDiff, y: e.clientY - initialYDiff })
+        switch (obj.id) {
+            case App.WOBENGO:
+                setWebengoPosition(newPositionCoords)
+                break;
+            case App.BEN_OS:
+                setBenOsPosition(newPositionCoords)
+                break;
+            case App.BENTTY:
+                setBenttyPosition(newPositionCoords)
+                break;
+            case App.INBENTORY:
+                setInbentoryPosition(newPositionCoords)
+                break;
+            case App.BHOLDER:
+                setBholderPosition(newPositionCoords)
+                break;
+            case App.BEEP_BOOP_BOP:
+                setBeepBoopBopPosition(newPositionCoords)
+                break;
+            default:
+                break
+        }
     };
 
     // use effects
@@ -152,6 +174,11 @@ export default function PortfolioComponent(
             const calculatedPxWidth = percentageToPixels(25, containerWidth);
             const calculatedPxHeight = percentageToPixels(25, containerHeight);
             setWebengoPosition({ x: calculatedPxWidth, y: calculatedPxHeight })
+            setBenOsPosition({ x: calculatedPxWidth, y: calculatedPxHeight })
+            setInbentoryPosition({ x: calculatedPxWidth, y: calculatedPxHeight })
+            setBenttyPosition({ x: calculatedPxWidth, y: calculatedPxHeight })
+            setBeepBoopBopPosition({ x: calculatedPxWidth, y: calculatedPxHeight })
+            setBholderPosition({ x: calculatedPxWidth, y: calculatedPxHeight })
         }
     }, [])
 
@@ -165,141 +192,6 @@ export default function PortfolioComponent(
         const currentBoundaryBox = getBoundaryBox();
         setBoundaryBox(currentBoundaryBox);
     }, [showScreensaver]);
-
-    const applicationDetails = {
-        name: "Ben OS",
-        path: "/usr/bin/ben_os",
-        prefixes: [
-            "nohup"
-        ],
-        flags: [
-            "--startup",
-            "--debug=false",
-            "&"
-        ],
-        postFixes: [
-            {
-                prefixes: [],
-                path: "/bin/run",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/thing",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/blast",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/pop",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/thing",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/run",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/thing",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/blast",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/pop",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/thing",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            },
-            {
-                prefixes: [],
-                path: "/bin/taco",
-                flags: ["flag1", "flag2"],
-                postFixes: []
-            }
-        ]
-    }
 
     return (
         <Grid
@@ -337,15 +229,19 @@ export default function PortfolioComponent(
                     className="object-cover"
                     priority
                     onDragOver={onDragOver}
-                    onDrop={(e: any) => onDrop(e, "webengo")}
+                    onDrop={(e: any) => onDrop(e)}
                 />
                 {
                     showLoaderComponent && (
                         <LoaderComponent
-                            applicationDetails={applicationDetails}
                             setShowLoaderComponent={setShowLoaderComponent}
                             app={app}
-                            showAppFunction={showAppFunction}
+                            setShowBenOsComponent={setShowBenOsComponent}
+                            setShowWobengoComponent={setShowWobengoComponent}
+                            setShowBenttyComponent={setShowBenttyComponent}
+                            setShowBholderComponent={setShowBholderComponent}
+                            setShowInbentoryComponent={setShowInbentoryComponent}
+                            setShowBeepBoopBopComponent={setShowBeepBoopBopComponent}
                         />
                     )
                 }
@@ -357,6 +253,67 @@ export default function PortfolioComponent(
                             onDragStart={onDragStart}
                             onDragOver={onDragOver}
                             onDrop={onDrop}
+                            desktopContainerRef={desktopContainerRef}
+                        />
+                    )
+                }
+                {
+                    showBenOsComponent && (
+                        <BenOsComponent
+                            setShowBenOsComponent={setShowBenOsComponent}
+                            appPosition={benOsPosition}
+                            onDragStart={onDragStart}
+                            onDragOver={onDragOver}
+                            onDrop={onDrop}
+                            desktopContainerRef={desktopContainerRef}
+                        />
+                    )
+                }
+                {
+                    showBeepBoopBopComponent && (
+                        <BeepBoopBopComponent
+                            setShowBeepBoopBopComponent={setShowBeepBoopBopComponent}
+                            appPosition={beepBoopBopPosition}
+                            onDragStart={onDragStart}
+                            onDragOver={onDragOver}
+                            onDrop={onDrop}
+                            desktopContainerRef={desktopContainerRef}
+                        />
+                    )
+                }
+                {
+                    showBenttyComponent && (
+                        <BenttyComponent
+                            setShowBenttyComponent={setShowBenttyComponent}
+                            appPosition={benttyPosition}
+                            onDragStart={onDragStart}
+                            onDragOver={onDragOver}
+                            onDrop={onDrop}
+                            desktopContainerRef={desktopContainerRef}
+                        />
+                    )
+                }
+                {
+                    showBholderComponent && (
+                        <BHolderComponent
+                            setShowBholderComponent={setShowBholderComponent}
+                            appPosition={bholderPosition}
+                            onDragStart={onDragStart}
+                            onDragOver={onDragOver}
+                            onDrop={onDrop}
+                            desktopContainerRef={desktopContainerRef}
+                        />
+                    )
+                }
+                {
+                    showInbentoryComponent && (
+                        <InbentoryComponent
+                            setShowInbentoryComponent={setShowInbentoryComponent}
+                            appPosition={inbentoryPosition}
+                            onDragStart={onDragStart}
+                            onDragOver={onDragOver}
+                            onDrop={onDrop}
+                            desktopContainerRef={desktopContainerRef}
                         />
                     )
                 }

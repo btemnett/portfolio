@@ -1,28 +1,29 @@
 import { App } from "@/enums/App";
-import { IApplicationDetails } from "@/interfaces/IApplicationDetails";
-import { ICommand } from "@/interfaces/ICommand";
 import { Grid } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 
 export default function LoaderOutputComponent(
     {
-        applicationDetails,
         setShowLoaderComponent,
         app,
-        showAppFunction
+        setShowBenOsComponent,
+        setShowWobengoComponent,
+        setShowBenttyComponent,
+        setShowBholderComponent,
+        setShowInbentoryComponent,
+        setShowBeepBoopBopComponent,
     }: {
-        applicationDetails: IApplicationDetails
         setShowLoaderComponent: Dispatch<SetStateAction<boolean>>,
         app: App
-        showAppFunction: Dispatch<SetStateAction<boolean>>
+        setShowBenOsComponent: Dispatch<SetStateAction<boolean>>
+        setShowWobengoComponent: Dispatch<SetStateAction<boolean>>
+        setShowBenttyComponent: Dispatch<SetStateAction<boolean>>
+        setShowBholderComponent: Dispatch<SetStateAction<boolean>>
+        setShowInbentoryComponent: Dispatch<SetStateAction<boolean>>
+        setShowBeepBoopBopComponent: Dispatch<SetStateAction<boolean>>
     }
 ) {
-    const [commandArray, setCommandArray] = useState<Array<{
-        command: string;
-        id: string;
-        func: Dispatch<SetStateAction<string>>;
-    }>>([]);
 
     const [prefixMain, setPrefixMain] = useState("");
     const [pathMain, setPathMain] = useState("");
@@ -153,43 +154,7 @@ export default function LoaderOutputComponent(
             // Target the container dynamically using a data attribute
             sheet.insertRule('[data-no-scrollbar]::-webkit-scrollbar { display: none; }', 0);
         }
-        let freshCommandArray = []
-        const prefixCommandObject = {
-            command: applicationDetails.prefixes.join(" "),
-            id: "prefixMain",
-            func: setPrefixMain
-        }
-        freshCommandArray.push(prefixCommandObject)
-        const pathCommandObject = {
-            command: applicationDetails.path,
-            id: "pathMain",
-            func: setPathMain
-        }
-        freshCommandArray.push(pathCommandObject)
-        const flagCommandObject = {
-            command: applicationDetails.flags.join(" "),
-            id: "flagMain",
-            func: setFlagMain
-        }
-        freshCommandArray.push(flagCommandObject)
 
-        for (let i = 0; i < applicationDetails.postFixes.length; i++) {
-            const newCommandObjects = [
-                {
-                    command: applicationDetails.postFixes[i].path,
-                    id: `path${i + 1}`,
-                    func: pathFuncs[i]
-                },
-                {
-                    command: applicationDetails.postFixes[i].flags.join(" "),
-                    id: `flag${i + 1}`,
-                    func: flagFuncs[i]
-                }
-            ]
-            freshCommandArray = freshCommandArray.concat(newCommandObjects);
-        }
-
-        setCommandArray(freshCommandArray);
 
         // const observer = new IntersectionObserver(
         //     ([entry]) => {
@@ -207,8 +172,46 @@ export default function LoaderOutputComponent(
 
     let speed = 1;
 
-
     useEffect(() => {
+        let commandArray = []
+        const prefixCommandObject = {
+            command: "nohup",
+            id: "prefixMain",
+            func: setPrefixMain
+        }
+        commandArray.push(prefixCommandObject)
+        const pathCommandObject = {
+            command: `/usr/bin/${app}`,
+            id: "pathMain",
+            func: setPathMain
+        }
+        commandArray.push(pathCommandObject)
+        const flagCommandObject = {
+            command: [
+                "--startup",
+                "--debug=false",
+                "&"
+            ].join(" "),
+            id: "flagMain",
+            func: setFlagMain
+        }
+        commandArray.push(flagCommandObject)
+
+        for (let i = 0; i < postFixCommands.length; i++) {
+            const newCommandObjects = [
+                {
+                    command: postFixCommands[i].path,
+                    id: `path${i + 1}`,
+                    func: pathFuncs[i]
+                },
+                {
+                    command: postFixCommands[i].flags.join(" "),
+                    id: `flag${i + 1}`,
+                    func: flagFuncs[i]
+                }
+            ]
+            commandArray = commandArray.concat(newCommandObjects);
+        }
         if (commandIndex.current === 0 && commandArray.length > 0) {
             text = commandArray[commandIndex.current].command;
         }
@@ -244,7 +247,28 @@ export default function LoaderOutputComponent(
                 }
             } else {
                 setShowLoaderComponent(false)
-                showAppFunction(true)
+                switch (app) {
+                    case App.WOBENGO:
+                        setShowWobengoComponent(true)
+                        break;
+                    case App.BEN_OS:
+                        setShowBenOsComponent(true)
+                        break;
+                    case App.BENTTY:
+                        setShowBenttyComponent(true)
+                        break;
+                    case App.INBENTORY:
+                        setShowInbentoryComponent(true)
+                        break;
+                    case App.BHOLDER:
+                        setShowBholderComponent(true)
+                        break;
+                    case App.BEEP_BOOP_BOP:
+                        setShowBeepBoopBopComponent(true)
+                        break;
+                    default:
+                        break
+                }
                 clearInterval(typingInterval);
             }
         }, speed);
@@ -253,7 +277,7 @@ export default function LoaderOutputComponent(
         console.log("clearing interval")
         return () => clearInterval(typingInterval);
 
-    }, [commandArray]);
+    }, [app]);
 
     // useEffect(() => {
     //     // 2. Scroll if text exists and element is NOT in view
@@ -992,3 +1016,126 @@ export default function LoaderOutputComponent(
 
 //     return returnedPostfixes;
 // }
+
+const postFixCommands = [
+    {
+        prefixes: [],
+        path: "/bin/run",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/thing",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/blast",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/pop",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/thing",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/run",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/thing",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/blast",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/pop",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/thing",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    },
+    {
+        prefixes: [],
+        path: "/bin/taco",
+        flags: ["flag1", "flag2"],
+        postFixes: []
+    }
+]

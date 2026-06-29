@@ -4,16 +4,16 @@ import { App } from "@/enums/App";
 
 
 
-export default function WobengoComponent(
+export default function BenOsComponent(
     {
-        setShowWobengoComponent,
+        setShowBenOsComponent,
         appPosition,
         onDragStart,
         onDragOver,
         onDrop,
         desktopContainerRef
     }: {
-        setShowWobengoComponent: Dispatch<SetStateAction<boolean>>
+        setShowBenOsComponent: Dispatch<SetStateAction<boolean>>
         appPosition: any
         onDragStart: any
         onDragOver: any
@@ -37,17 +37,17 @@ export default function WobengoComponent(
     }, [desktopContainerRef])
 
     const handleClose = () => {
-        setShowWobengoComponent(false)
+        setShowBenOsComponent(false)
     }
 
     return (
         <Grid
             container
-            id={App.WOBENGO}
+            id={App.BEN_OS}
             draggable
-            onDragStart={(e: any) => onDragStart(e, App.WOBENGO)}
+            onDragStart={(e: any) => onDragStart(e, App.BEN_OS)}
             onDragOver={onDragOver}
-            onDrop={(e: any) => onDrop(e, App.WOBENGO)}
+            onDrop={(e: any) => onDrop(e, App.BEN_OS)}
             sx={{
                 position: "absolute",
                 color: "green",
@@ -76,7 +76,7 @@ export default function WobengoComponent(
                         width: "90%"
                     }}
                 >
-                    {App.WOBENGO}
+                    {App.BEN_OS}
                 </Grid>
                 <Grid
                     onClick={handleClose}

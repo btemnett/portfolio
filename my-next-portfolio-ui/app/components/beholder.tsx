@@ -4,16 +4,16 @@ import { App } from "@/enums/App";
 
 
 
-export default function WobengoComponent(
+export default function BHolderComponent(
     {
-        setShowWobengoComponent,
+        setShowBholderComponent,
         appPosition,
         onDragStart,
         onDragOver,
         onDrop,
         desktopContainerRef
     }: {
-        setShowWobengoComponent: Dispatch<SetStateAction<boolean>>
+        setShowBholderComponent: Dispatch<SetStateAction<boolean>>
         appPosition: any
         onDragStart: any
         onDragOver: any
@@ -37,17 +37,17 @@ export default function WobengoComponent(
     }, [desktopContainerRef])
 
     const handleClose = () => {
-        setShowWobengoComponent(false)
+        setShowBholderComponent(false)
     }
 
     return (
         <Grid
             container
-            id={App.WOBENGO}
+            id={App.BHOLDER}
             draggable
-            onDragStart={(e: any) => onDragStart(e, App.WOBENGO)}
+            onDragStart={(e: any) => onDragStart(e, App.BHOLDER)}
             onDragOver={onDragOver}
-            onDrop={(e: any) => onDrop(e, App.WOBENGO)}
+            onDrop={(e: any) => onDrop(e, App.BHOLDER)}
             sx={{
                 position: "absolute",
                 color: "green",
@@ -76,7 +76,7 @@ export default function WobengoComponent(
                         width: "90%"
                     }}
                 >
-                    {App.WOBENGO}
+                    {App.BHOLDER}
                 </Grid>
                 <Grid
                     onClick={handleClose}

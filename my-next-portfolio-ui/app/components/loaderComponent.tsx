@@ -7,15 +7,23 @@ import { App } from "@/enums/App";
 
 export default function LoaderComponent(
     {
-        applicationDetails,
         setShowLoaderComponent,
         app,
-        showAppFunction
+        setShowBenOsComponent,
+        setShowWobengoComponent,
+        setShowBenttyComponent,
+        setShowBholderComponent,
+        setShowInbentoryComponent,
+        setShowBeepBoopBopComponent
     }: {
-        applicationDetails: IApplicationDetails,
-        setShowLoaderComponent: Dispatch<SetStateAction<boolean>>,
+        setShowLoaderComponent: Dispatch<SetStateAction<boolean>>
         app: App
-        showAppFunction: Dispatch<SetStateAction<boolean>>,
+        setShowBenOsComponent: Dispatch<SetStateAction<boolean>>
+        setShowWobengoComponent: Dispatch<SetStateAction<boolean>>
+        setShowBenttyComponent: Dispatch<SetStateAction<boolean>>
+        setShowBholderComponent: Dispatch<SetStateAction<boolean>>
+        setShowInbentoryComponent: Dispatch<SetStateAction<boolean>>
+        setShowBeepBoopBopComponent: Dispatch<SetStateAction<boolean>>
     }
 ) {
     
@@ -36,10 +44,14 @@ export default function LoaderComponent(
             }}
         >
             <LoaderOutputComponent 
-                applicationDetails={applicationDetails} 
                 setShowLoaderComponent={setShowLoaderComponent}
                 app={app}
-                showAppFunction={showAppFunction}
+                setShowBenOsComponent={setShowBenOsComponent}
+                setShowWobengoComponent={setShowWobengoComponent}
+                setShowBenttyComponent={setShowBenttyComponent}
+                setShowBholderComponent={setShowBholderComponent}
+                setShowInbentoryComponent={setShowInbentoryComponent}
+                setShowBeepBoopBopComponent={setShowBeepBoopBopComponent}
             />
             <Grid
                 sx={{
