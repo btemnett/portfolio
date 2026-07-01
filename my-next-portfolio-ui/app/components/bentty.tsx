@@ -134,7 +134,7 @@ export default function BenttyComponent(
             >
                 <Grid
                     sx={{
-                        width: "90%"
+                        width: "92.5%"
                     }}
                 >
                     {App.BENTTY}
@@ -142,7 +142,23 @@ export default function BenttyComponent(
                 <Grid
                     onClick={handleClose}
                     sx={{
-                        width: "10%"
+                        width: "2.5%"
+                    }}
+                >
+                    X
+                </Grid>
+                <Grid
+                    onClick={handleClose}
+                    sx={{
+                        width: "2.5%"
+                    }}
+                >
+                    X
+                </Grid>
+                <Grid
+                    onClick={handleClose}
+                    sx={{
+                        width: "2.5%"
                     }}
                 >
                     X
